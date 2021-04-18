@@ -1,18 +1,28 @@
 {
   "name": "feriavirtual-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API Web para utlizarse en la aplicacion FeriaVirtualMóvil y FeriaVirtualWeb,\r  escrito para Node.JS.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nicolas_QuadPoint",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.7",
+    "oracledb": "^5.1.0",
     "tedious": "^11.0.7"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicolas-QuadPoint/FeriaVirtualWebAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nicolas-QuadPoint/FeriaVirtualWebAPI/issues"
+  },
+  "homepage": "https://github.com/Nicolas-QuadPoint/FeriaVirtualWebAPI#readme"
 }

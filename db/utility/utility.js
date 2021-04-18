@@ -29,6 +29,16 @@ function buildOutputParam(outputparam,paramData){
     outputparam.push(newOutputParam);
 }
 
+function buildParam2(outputparam,paramData){
+    
+    var newOutputParam = {};
+    
+    newOutputParam[paramData.name] = paramData.val;
+
+    outputparam.push(newOutputParam);
+}
+
+
 module.exports = {
     sendDbResponse: sendDbResponse,
     buildRow: buildRow,

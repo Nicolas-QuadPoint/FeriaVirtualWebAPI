@@ -2,7 +2,9 @@
 const dotenv = require('dotenv');
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
+const TYPES = require('tedious').TYPES;
 const utility = require('./utility/utility');
+const DBConnector = require('./dbconnector');
 
 //Configuring enviromental values
 dotenv.config();
@@ -30,204 +32,23 @@ const config = {
     }
 };
 
-function sqlServerConnector(){
+class SQLServerConnector extends DBConnector {
 
-    var self = this;
+    static dbTypes = {
 
-    this.spGetExecute = (qry, callback) => {
-        
-        this.newConnection(
-            (connection) => {
-
-                var data = [];
-                var dataset = [];
-                var resultset = 0;
-
-                //Se crea la petición
-                request = new Request(qry, function (err, rowCount) {
-                    utility.sendDbResponse(err, rowCount, dataset, callback);
-            
-                });
-                
-                //Se ejecuta cada vez que haya que procesar una fila de resultados
-                request.on('row', function (columns) {
-                    utility.buildRow(columns, data);
-            
-                });
-                
-                //Se ejecuta cuando la instrucción haya terminado
-                request.on('doneInProc', function (rowCount, more, rows) {
-
-                    //Ya no hay nada mas que hacer?
-                    if(more == false){
-                        
-                        connection.close();
-                    
-                    }
-                    //Hay datos que entregar 
-                    else {
-
-                        dataset.push(data);
-                        data = [];
-
-                    }
-
-                });
-                
-                //Se llama al procedimiento!
-                connection.callProcedure(request);
-            }
-        );
-        
-    }
+        NUMBER : TYPES.Numeric,
+        INT: TYPES.Int,
+        VARCHAR : TYPES.VarChar,
+        CHAR : TYPES.Char,
+        DATE : TYPES.Date,
+        DATETIME : TYPES.DateTime,
+        TIMESTAMP : TYPES.DateTime
     
-    this.spPostExecute = (qry, params, callback) => {
-        
-        this.newConnection(
-            
-            (connection) => {
+    };
 
-                var newdata = [];
-                var outputvalData = [];
-                
-                //Se crea la petición
-                var request = new Request(qry, function (err, rowCount) {
-                    utility.sendDbResponse(err, rowCount, newdata,outputvalData, callback);
-                });
-                
-                //Agrega los parámetros a la función/procedimiento
-                params.in.forEach(param => {
-                    request.addParameter(param.name, param.type, param.val);
-                });
+    //Generate a new connection
+    newConnection(callbackToSQL){
 
-                //Agrega parámetros de salida (opcional)
-                params.out.forEach(param =>{
-                    request.addOutputParameter(param.name,param.type,param.val);
-                });
-
-                //Se ejecuta cada vez que haya que procesar una fila de resultados
-                request.on('row', function (columns) {
-                    utility.buildRow(columns, newdata);
-                });
-               
-                //Se ejectua cada vez que aparezca un valor del tipo output
-                request.on('returnValue', function(parameterName, value, metadata) {
-
-                    utility.buildOutputParam( outputvalData, { name:parameterName, val:value } );
-                    console.log('output variable: name: %s - value: %s',parameterName,value);
-
-                });
-                
-                //Se ejecuta cuando la instrucción haya terminado
-                request.on('doneInProc', function (rowCount, more, rows) {
-                    
-                    //Ya no hay nada mas que hacer?
-                    if(more == false){
-                        connection.close();
-                    }
-
-                });
-            
-                //Se llama al procedimiento!
-                connection.callProcedure(request);
-
-            }
-        );
-        
-    }
-    
-    this.queryGetExecute = (qry, params, isMultiSet, callback) => {
-        
-        this.newConnection(
-            
-            (connection) =>{
-
-                var data = [];
-                var dataset = [];
-                var resultset = 0;
-                
-                //Se crea la petición
-                var request = new Request(qry, function (err, rowCount) {
-                    utility.sendDbResponse(err, rowCount, dataset, callback);
-            
-                });
-                
-                //Agrega los parámetros a la función/procedimiento
-                params.forEach(param => {
-                    request.addParameter(param.name, param.type, param.val);
-                });
-                
-                //Se ejecuta cada vez que haya que procesar una fila de resultados
-                request.on('row', function (columns) {
-                    utility.buildRow(columns, data);
-                });
-                
-                //Se ejecuta cuando la instrucción haya terminado
-                request.on('doneInProc', function (rowCount, more, rows) {
-
-                    //Es tabla?
-                    if (isMultiSet == false) {
-                        dataset = data;
-                    }
-                    //Ya no hay nada mas que hacer?
-                    else if(more == false){
-                        connection.close();
-                    }
-                    //Hay datos que entregar
-                    else {
-                        dataset.push(data);
-                        data = [];
-                    }
-                    
-                });
-
-            
-                connection.execSql(request);
-
-            }
-        );
-
-    }
-    
-    this.queryExecute = (qry, params, isMultiSet, callback) => {
-        
-        this.newConnection(
-
-            (connection) => {
-
-                var data = [];
-                var dataset = [];
-                var resultset = 0;
-                
-                //Se crea la petición
-                request = new Request(qry, function (err, rowCount) {
-                    utility.sendDbResponse(err, rowCount, dataset, callback);
-                });
-                
-                //Agrega los parametros a la consulta
-                params.forEach(param => {
-                    request.addParameter(param.name, param.type, param.val);
-                });
-
-                //Gestiona el fin de la petición
-                request.on('done', function (rowCount, more, rows) { 
-
-                    if(more == false){
-                        connection.close();
-                    }
-
-                });
-            
-                //Ejecutamos la consulta
-                connection.execSql(request);
-
-            }
-        );
-
-    }
-      
-    this.newConnection = (callbackToSQL) => {
-    
         var c = new Connection(config);
     
         // Attempt to connect and execute queries if connection goes through
@@ -261,14 +82,76 @@ function sqlServerConnector(){
         c.connect();
     }
 
-    this.closeConnection = () => {
-
+    //This closes the connection
+    closeConnection(){
         this.conn.close();
-
     }
 
-    //Retornamos el objeto para funciones encadenadas
-    return this;
-}
+    //Funcion que ejecuta un 'procedimiento almacenado'
+    executeStoredProcedure(spName,params,options,callback){
 
-module.exports = sqlServerConnector;
+        this.newConnection(
+            
+            (connection) => {
+
+                var newdata = [];
+                var outputvalData = [];
+                
+                //Se crea la petición
+                var request = new Request(spName, function (err, rowCount) {
+                    utility.sendDbResponse(err, rowCount, newdata,outputvalData, callback);
+                });
+                
+                //Agrega los parámetros a la función/procedimiento
+                params.in.forEach(param => {
+                    request.addParameter(param.name, param.type, param.val);
+                });
+
+                //Agrega parámetros de salida (opcional)
+                params.out.forEach(param =>{
+                    request.addOutputParameter(param.name,param.type,param.val);
+                });
+
+                //Se ejecuta cada vez que haya que procesar una fila de resultados
+                request.on('row', function (columns) {
+                    utility.buildRow(columns, newdata);
+                });
+               
+                //Se ejectua cada vez que aparezca un valor del tipo output
+                request.on('returnValue', function(parameterName, value, metadata) {
+
+                    utility.buildOutputParam( outputvalData, { name:parameterName, val:value } );
+                    console.log('output variable: name: %s - value: %s',parameterName,value);
+
+                });
+                
+                //Se ejecuta cuando la instrucción haya terminado
+                request.on('doneInProc', function (rowCount, more, rows) {
+                    
+                    //Ya no hay nada mas que hacer?
+                    if(more == false){
+                        
+                        this.closeConnection();
+                    
+                    }
+                    //Hay datos que entregar 
+                    else {
+
+                        dataset.push(data);
+                        data = [];
+
+                    }
+
+                });
+            
+                //Se llama al procedimiento!
+                connection.callProcedure(request);
+
+            }
+
+        );
+
+    }
+}
+      
+module.exports = SQLServerConnector;
