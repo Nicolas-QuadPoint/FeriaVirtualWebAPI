@@ -43,7 +43,7 @@ class OraDBConnector extends DBConnector{
             this.conn = ora.getConnection(oraconfig,callbackToSQL);
     
     
-        } catch(err) {
+        } catch(e) {
     
             console.error(error.errorNum,error.message)
     
@@ -57,9 +57,9 @@ class OraDBConnector extends DBConnector{
             
             this.conn.close();
 
-        } catch(err){
+        } catch(e){
 
-            console.error("Un error en OracleDBConnector!: %s",err.message);
+            console.error("Un error en OracleDBConnector!: %s",e.message);
 
         }
     
@@ -69,7 +69,7 @@ class OraDBConnector extends DBConnector{
     
         this.newConnection(
     
-            (err,connection) => {
+            (e,connection) => {
     
                 var data = [];
                 var dataset = [];
@@ -109,7 +109,7 @@ class OraDBConnector extends DBConnector{
     
         this.newConnection(
     
-            (err,connection) => {
+            (e,connection) => {
     
                 var data = [];
                 var dataset = [];

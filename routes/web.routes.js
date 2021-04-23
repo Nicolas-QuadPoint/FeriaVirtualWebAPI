@@ -1,9 +1,9 @@
 const express = require('express'); 
 
-function webRoutes() {
+function WebRoutes() {
     const router = express.Router();
     var indexcontroller = require('../controllers/index.controler')(router);
     return router;
 }
 
-module.exports = webRoutes;
+module.exports = WebRoutes;

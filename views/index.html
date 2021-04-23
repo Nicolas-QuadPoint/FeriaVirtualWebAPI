@@ -25,11 +25,13 @@
             .w-100{
                 width: 100%;
             }
-            .mi-tabla{
+            .contenedor{
                 margin:auto;
                 padding:1em;
                 width: 80%;
                 background-color:rgba(255, 255, 255, 0.7);
+            }
+            .mi-tabla{
                 table-layout: fixed;
             }
             .pad-10{
@@ -49,14 +51,22 @@
             }
             .textoparrafo-s {
                 line-height: 1.8;
+                word-wrap: break-word;
             }
             td{
-                padding: 10px;
+                margin: 10px;
+            }
+            .imagen-titulo{
+                max-width:100%;
+                max-height:100%;
+            }
+            .controles{
+                min-height: 23px;
             }
         </style>
     </head>
     <body style="background: url('img/fondo-campo.png') repeat;">
-        <div>
+        <div class="contenedor white">
             <table class="mi-tabla">
                 <thead>
                     <th class="center" colspan="2">
@@ -67,55 +77,52 @@
                     <tr class="white">
                         <td>
                             <div>
-                                <img src="img/logo_maipo_grande.svg"/>
+                                <img class="imagen-titulo" src="img/logo_maipo_grande.svg"/>
                             </div>
                         </td>
-                        <td class="textoparrafo-s"> 
-                            <p>
-                                La WebAPI de FeriaVirtual es el portal común para el acceso 
-                                entre todas las aplicaciones cliente del sistema. Permite
-                                el intercambio cómodo de datos por medio de objetos JSON,
-                                los cuales se pueden convertir fácilmente a instancias de 
-                                clase, y además es muy compatible con infinidad de lenguajes 
-                                y plataformas. Gracias a esto, JSON es el estándar de hoy 
-                                para este tipo de trabajo. 
-
-                                En esta API se permiten solamente los siguiente métodos http:
-
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <b>GET: </b>Método usado para recuperar datos.
-                                            Usualmente involucra un parámetro en la URL, como:
-                                            http://localhost:3000/api/v1/usuario/1 
-                                            Siendo '1' el parámetro.
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <b>POST: </b>Método usado para enviar nuevos datos.
-                                            Estos no son vistos en la URL, sino que en el cuerpo
-                                            de la petición http. Esta API solo acepta peticiones
-                                            post en formato JSON. Cualquier cosa será respondida
-                                            con un código de error 400 (Bad Request)
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <b>PUT: </b>Método usado para modificar datos existentes.
-                                            Usualmente involucra un parámetro en la URL, como en GET,
-                                            Pero también requiere contenido en el cuerpo de la petición
-                                            en formato JSON.
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <b>DELETE: </b>Método usado para eliminar datos.
-                                            Pide lo mismo que en PUT.
-                                       </span>
-                                    </li>
-                                </ul>
-                            </p>                            
+                        <td class="textoparrafo-s">
+                            <div style="padding:1em;">
+                                <p class="imagen-titulo">
+                                    La WebAPI de FeriaVirtual es el portal común para el acceso 
+                                    entre todas las aplicaciones cliente del sistema. Permite
+                                    el intercambio cómodo de datos por medio de objetos JSON,
+                                    los cuales se pueden convertir fácilmente a instancias de 
+                                    clase, y además es muy compatible con infinidad de lenguajes 
+                                    y plataformas. Gracias a esto, JSON es el estándar de hoy 
+                                    para este tipo de trabajo. 
+    
+                                    En esta API se permiten solamente los siguiente métodos http:
+                                </p>
+                                <dl>
+                                    <dt><b>GET: </b></dt>
+                                    <dd>
+                                        Método usado para recuperar datos.
+                                        Usualmente involucra un parámetro en la URL, como:
+                                        http://localhost:3000/api/v1/usuario/1 
+                                        Siendo '1' el parámetro.
+                                    </dd>
+                                    <dt><b>POST: </b></dt>
+                                    <dd>
+                                        Método usado para enviar nuevos datos.
+                                        Estos no son vistos en la URL, sino que en el cuerpo
+                                        de la petición http. Esta API solo acepta peticiones
+                                        post en formato JSON. Cualquier cosa será respondida
+                                        con un código de error 400 (Bad Request)
+                                    </dd>
+                                    <dt><b>PUT: </b></dt>
+                                    <dd>
+                                        Método usado para modificar datos existentes.
+                                        Usualmente involucra un parámetro en la URL, como en GET,
+                                        Pero también requiere contenido en el cuerpo de la petición
+                                        en formato JSON.
+                                    </dd>
+                                    <dt><b>DELETE:</b></dt>
+                                    <dd>
+                                        Método usado para eliminar datos.
+                                        Pide lo mismo que en PUT.
+                                    </dd>
+                                </dl>
+                            </div>                            
                         </td>
                     </tr>
                     <tr class="white">
@@ -130,14 +137,18 @@
                                 acorde a tu petición.
                                 Si en la opción, hay un <i>"/:parametro"</i> incluido, quiere decir que lo que tienes que
                                 ingresar no es necesariamente un JSON, sino que un dato común, como un número o 
-                                palabra. Ejemplo:
+                                palabra.
                             </p>
-                            <ul>
-                                <li>
-                                    http://localhost:3000/api/v1/usuario/<b>:usuarioid</b> es igual a 
+                            <dl>
+                                <dt><b>Ejemplo:</b></dt>
+                                <dd>
+                                    http://localhost:3000/api/v1/usuario/<b>:usuarioid</b>
+                                </dd>
+                                <dt>Es igual a...</dt>
+                                <dd>
                                     http://localhost:3000/api/v1/usuario/<b>1</b> 
-                                </li>
-                            </ul>
+                                </dd>
+                            </dl>
                             <p>
                                 Si te equivocas, o si ocurre otro error, el recuadro de respuesta te lo hará saber! 
                                 También puede consultar en la consola de desarrollador de tu navegador!
@@ -147,7 +158,7 @@
                     <tr class="white">
                         <td>
                             <label>Escoge el método que quieres ejecutar</label>
-                            <select id="cmbMetodoApi" onchange="cmbMetodoApiValueChanged(this);">
+                            <select id="cmbMetodoApi" onchange="cmbMetodoApiValueChanged(this);" class="controles">
                                 <option data-httpmode="GET" value="nada">Selecciona un método...</option>
                                 <option data-httpmode="GET" value="usuarios">Obtener (GET) todos los usuarios (/usuarios)</option>
                                 <option data-httpmode="GET" data-paramquery=":idusuario" value="usuario/:idusuario">Obtener (GET) un usuario (/usuario/:idusuario)</option>
@@ -160,7 +171,7 @@
                     <tr class="white">
                         <td>
                             <label>En este recuadro escribe el objeto JSON que quieres enviar</label>
-                            <button onclick="enviarSolicitud();">Enviar!</button>
+                            <button onclick="enviarSolicitud();" class="controles">Enviar!</button>
                         </td>
                         <td>
                             <label>Tu resultado aparecerá aquí!</label>

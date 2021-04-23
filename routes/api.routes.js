@@ -1,12 +1,12 @@
 const express = require('express'); 
 
-function apiRoutes() {
+function ApiRoutes() {
     const router = express.Router();
-    var auth = require('../repositiorios/auth/auth.routes')(router);
-    var usuarios = require('../repositiorios/usuario/usuario.routes')(router);
-    var ventas = require('../repositiorios/venta/venta.routes')(router);
-    var productos = require('../repositiorios/producto/producto.routes')(router);
+    var auth = require('../repositories/auth/auth.routes')(router);
+    var usuarios = require('../repositories/usuario/usuario.routes')(router);
+    var ventas = require('../repositories/venta/venta.routes')(router);
+    var productos = require('../repositories/producto/producto.routes')(router);
     return router;
 }
 
-module.exports = apiRoutes;
+module.exports = ApiRoutes;
