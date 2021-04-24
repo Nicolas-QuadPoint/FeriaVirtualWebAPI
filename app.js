@@ -1,6 +1,7 @@
-const express = require('express');
-const path = require('path');
-const dotenv = require('dotenv');
+import express, { static, json } from 'express';
+import { join } from 'path';
+import { config } from 'dotenv';
+
 const app = express();
 const apiroutes = require('./routes/api.routes')();
 const webroutes = require('./routes/web.routes')();
@@ -8,16 +9,16 @@ const webroutes = require('./routes/web.routes')();
 /* https://en.wikipedia.org/wiki/List_of_HTTP_status_codes */
 
 //Configuring enviromental values
-dotenv.config();
+config();
 
 
 //Public resources - Todo debajo de la carpeta indicada,
 //sera de acceso publico para el usuario
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'views'));
+app.use(static(join(__dirname, 'public')));
+app.set('views', join(__dirname, 'views'));
 
 //Allow responses to be parsed to JSON.
-app.use(express.json());
+app.use(json());
 
 //Web Routes
 app.use('/',webroutes);

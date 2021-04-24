@@ -1,8 +1,8 @@
-const Entity = require('./Entity');
-const EstadoContrato = require('./EstadoContrato');
-const EstadoUsuario = require('./EstadoUsuario');
-const Nacionalidad = require('./Nacionalidad');
-const Rol = require('./Rol');
+import Entity from './Entity';
+import EstadoContrato from './EstadoContrato';
+import EstadoUsuario from './EstadoUsuario';
+import Nacionalidad from './Nacionalidad';
+import Rol from './Rol';
 
 class Usuario extends Entity{
 
@@ -62,4 +62,4 @@ class Usuario extends Entity{
 
 }
 
-module.exports = Usuario;
+export default Usuario;

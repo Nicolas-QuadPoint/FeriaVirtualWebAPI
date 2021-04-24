@@ -1,4 +1,4 @@
-module.exports = function(data, error){
+export default function(data, error){
     if(error){
         return error;
     }

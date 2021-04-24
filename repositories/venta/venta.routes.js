@@ -1,6 +1,6 @@
-const _ventasRepository = require('./venta.repository');
+import _ventasRepository from './venta.repository';
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     const ventasRepository = _ventasRepository();
 

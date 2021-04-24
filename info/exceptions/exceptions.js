@@ -1,6 +1,6 @@
 
 const RecordNotFoundException = 
-{ code : 404, name : "RecordNotFoundException", message : "The record has not found in the collection."};
+{ code : 404, name : "RecordNotFoundException", message : "The record was not found in the collection."};
 
 const InvalidCredentialsException = 
 { code : 401, name : "InvalidCredentialsException", message : "Either email or password are not correct."};
@@ -33,7 +33,7 @@ function Exception(code,name,message){
 }
 
 
-module.exports = {
+export default {
     Exception,
     RecordNotFoundException,
     InvalidCredentialsException,

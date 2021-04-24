@@ -1,7 +1,7 @@
-const ConexionBD = require('../../db/oracledbconnector');
-const utility = require('../../db/utilities/utility');
-const genericResponse = require('../../shared/response');
-const ex = require('../../info/exceptions/exceptions');
+import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
+import utility from '../../db/utilities/utility';
+import genericResponse from '../../shared/response';
+import { MethodNotImplementedException, DatabaseErrorException, RecordNotFoundException, InvalidArgumentException } from '../../info/exceptions/exceptions';
 
 /* Definicion de clase */
 function VentasRepository(datos){
@@ -15,7 +15,7 @@ function VentasRepository(datos){
             
             console.log(req.body);
 
-            res.status(501).json( ex.MethodNotImplementedException );
+            res.status(501).json( MethodNotImplementedException );
 
         } catch(e) {
 
@@ -36,7 +36,7 @@ function VentasRepository(datos){
                 var conn = new ConexionBD();
 
                 var parametros = {
-                    ventaid:{ name:'ventaid', type: ConexionBD.dbTypes.INT, val: venta_id, dir: ConexionBD.dbTypes.IN }
+                    ventaid:{ name:'ventaid', type: dbTypes.INT, val: venta_id, dir: dbTypes.IN }
                 };
 
                 conn.executeQuery("select * from table ( pkg_venta.func_get_venta(:ventaid) )",parametros,{},
@@ -44,7 +44,7 @@ function VentasRepository(datos){
                     
                     if(e){
 
-                        res.status(500).json( ex.DatabaseErrorException );
+                        res.status(500).json( DatabaseErrorException );
                         console.error(`Un error!: ${e.message}`);
 
                     } else if(results && results.rows[0]) {
@@ -53,7 +53,7 @@ function VentasRepository(datos){
 
                     } else {
 
-                        res.status(404).json( ex.RecordNotFoundException );
+                        res.status(404).json( RecordNotFoundException );
 
                     }
 
@@ -62,7 +62,7 @@ function VentasRepository(datos){
 
             } else {
 
-                res.status(400).json( ex.InvalidArgumentException );
+                res.status(400).json( InvalidArgumentException );
 
             }
 
@@ -85,7 +85,7 @@ function VentasRepository(datos){
                 var conn = new ConexionBD();
 
                 var parametros = {
-                    usuarioid:{ name:'usuarioid', type: ConexionBD.dbTypes.INT, val: usu_id, dir: ConexionBD.dbTypes.IN }
+                    usuarioid:{ name:'usuarioid', type: dbTypes.INT, val: usu_id, dir: dbTypes.IN }
                 };
 
                 conn.executeQuery("select * from table ( pkg_venta.func_get_all_ventas_usuario(:usuarioid) )",parametros,{},
@@ -93,7 +93,7 @@ function VentasRepository(datos){
                     
                     if(e){
 
-                        res.status(500).json( ex.DatabaseErrorException );
+                        res.status(500).json( DatabaseErrorException );
                         console.error(`Un error!: ${e.message}`);
 
                     } else if(results && results.rows[0]) {
@@ -102,7 +102,7 @@ function VentasRepository(datos){
 
                     } else {
 
-                        res.status(404).json( ex.RecordNotFoundException );
+                        res.status(404).json( RecordNotFoundException );
 
                     }
 
@@ -111,7 +111,7 @@ function VentasRepository(datos){
 
             } else {
 
-                res.status(400).json( ex.InvalidArgumentException );
+                res.status(400).json( InvalidArgumentException );
 
             }
 
@@ -133,7 +133,7 @@ function VentasRepository(datos){
                 
                 if(e){
 
-                    res.status(500).json( ex.DatabaseErrorException );
+                    res.status(500).json( DatabaseErrorException );
                     console.error(`Un error!: ${e.message}`);
 
                 } else if(results && results.rows[0]) {
@@ -142,7 +142,7 @@ function VentasRepository(datos){
 
                 } else {
 
-                    res.status(404).json( ex.RecordNotFoundException );
+                    res.status(404).json( RecordNotFoundException );
 
                 }
 
@@ -160,7 +160,7 @@ function VentasRepository(datos){
 
         try {
 
-            res.status(501).json( ex.MethodNotImplementedException );
+            res.status(501).json( MethodNotImplementedException );
 
         } catch(e) {
 
@@ -180,4 +180,4 @@ function VentasRepository(datos){
     };
 }
 
-module.exports = VentasRepository;
+export default VentasRepository;

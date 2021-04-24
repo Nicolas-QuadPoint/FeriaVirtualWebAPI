@@ -1,6 +1,6 @@
-const _infoRepository = require('./info.repository');
+import _infoRepository from './info.repository';
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     const infoRepository = _infoRepository();
 

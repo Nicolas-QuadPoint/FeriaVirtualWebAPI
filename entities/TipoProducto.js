@@ -1,4 +1,4 @@
-const Entity = require('./Entity');
+import Entity from './Entity';
 
 class TipoProducto extends Entity{
 
@@ -22,4 +22,4 @@ class TipoProducto extends Entity{
 
 }
 
-module.exports = TipoProducto;
+export default TipoProducto;

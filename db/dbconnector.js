@@ -41,4 +41,4 @@ class DBConnector {
 
 
 
-module.exports = DBConnector;
+export default DBConnector;

@@ -1,4 +1,4 @@
-const Entity = require('./Entity');
+import Entity from './Entity';
 
 class EstadoVenta extends Entity{
 
@@ -22,4 +22,4 @@ class EstadoVenta extends Entity{
 
 }
 
-module.exports = EstadoVenta;
+export default EstadoVenta;

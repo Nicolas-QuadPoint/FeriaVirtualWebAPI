@@ -1,4 +1,4 @@
-const Usuario = require('./Usuario');
+import Usuario from './Usuario';
 
 class ClienteExterno extends Usuario{
 
@@ -21,4 +21,4 @@ class ClienteExterno extends Usuario{
 
 }
 
-module.exports = ClienteExterno;
+export default ClienteExterno;

@@ -1,18 +1,18 @@
 //Importing modules
-const ora = require('oracledb');
-const dotenv = require('dotenv');
-const DBConnector = require('./dbconnector');
+import { outFormat, OUT_FORMAT_OBJECT, DB_TYPE_CHAR, DB_TYPE_NUMBER, DB_TYPE_VARCHAR, DB_TYPE_DATE, DB_TYPE_TIMESTAMP, BIND_IN, BIND_OUT, BIND_INOUT, getConnection } from 'oracledb';
+import { config, error as _error } from 'dotenv';
+import DBConnector from './dbconnector';
 
 //Configuring enviromental values
-dotenv.config();
+config();
 
 //Check for early errors
-if(dotenv.error){
-    throw dotenv.error;
+if(_error){
+    throw _error;
 }
 
 //Con esto, los resultados serán mostrados como JSON
-ora.outFormat = ora.OUT_FORMAT_OBJECT;
+outFormat = OUT_FORMAT_OBJECT;
 
 // Create connection to database
 const oraconfig = {
@@ -25,22 +25,22 @@ const oraconfig = {
 class OraDBConnector extends DBConnector{
 
     static dbTypes = {
-        CHAR : ora.DB_TYPE_CHAR,
-        INT : ora.DB_TYPE_NUMBER,
-        VARCHAR : ora.DB_TYPE_VARCHAR,
-        DATE : ora.DB_TYPE_DATE,
-        DATETIME : ora.DB_TYPE_DATE,
-        TIMESTAMP : ora.DB_TYPE_TIMESTAMP,
-        IN : ora.BIND_IN,
-        OUT : ora.BIND_OUT,
-        INOUT : ora.BIND_INOUT
+        CHAR : DB_TYPE_CHAR,
+        INT : DB_TYPE_NUMBER,
+        VARCHAR : DB_TYPE_VARCHAR,
+        DATE : DB_TYPE_DATE,
+        DATETIME : DB_TYPE_DATE,
+        TIMESTAMP : DB_TYPE_TIMESTAMP,
+        IN : BIND_IN,
+        OUT : BIND_OUT,
+        INOUT : BIND_INOUT
     };
     
     newConnection(callbackToSQL){
     
         try {
     
-            this.conn = ora.getConnection(oraconfig,callbackToSQL);
+            this.conn = getConnection(oraconfig,callbackToSQL);
     
     
         } catch(e) {
@@ -138,4 +138,4 @@ class OraDBConnector extends DBConnector{
     
 }
 
-module.exports = OraDBConnector;
+export default OraDBConnector;

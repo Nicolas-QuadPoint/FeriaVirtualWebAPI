@@ -281,37 +281,14 @@
 <pre>
 <code>
 {
-    "idproducto":int,
-    "nombre":string,
-    "volumen":float - double,
-    "tipoproducto": int,
-    "costomantencion": int
-}
-</code>
-</pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="center textoparrafo-s">
-                            <h2>Objeto Solicitud de Venta</h2>
-                            <p>
-                                Objeto compuesto que requiere la clase de 
-                                productos que se requieran comprar por parte del cliente 
-                                La venta creada tendría un estado inicial que permita 
-                                al administrador configurar las subastas.
-                            </p>
-                        </td>
-                        <td class="codigo">
-<pre>
-<code>
-{
-    "comentarios": string,
-    "id_tipo_venta": int,
-    "id_usuario_autor": int
-    "lista_productos": {
-        "id_producto" : int,
-        "kilos" : int
+    "id_producto": 0,
+    "nombre": "ninguno",
+    "volumen": 0,
+    "tipo_producto": {
+        "id_tipo_producto": 0,
+        "descripcion": "tipo_producto"
     },
+    "costo_mantencion": 0
 }
 </code>
 </pre>
@@ -321,26 +298,78 @@
                         <td class="center textoparrafo-s">
                             <h2>Objeto Venta</h2>
                             <p>
-                                Este objeto es utiizado solamente con 
-                                fines informativos. Siendo útil para 
-                                saber la información clara sin la necesidad 
-                                de llamar a más métodos de la API.
+                                Objeto con el cual se puede consultar información, 
+                                así como también enviar para modificar y crear un proceso 
+                                de venta. Para la sección de usuario, es necesario solamente el 
+                                ID, ya que la validación la realiza la base de datos. Para los 
+                                productos, igualmente es necesario solamente el ID, junto con la 
+                                cantidad de producto a solicitar.
                             </p>
                         </td>
                         <td class="codigo">
 <pre>
 <code>
 {
-    id_venta : int,
-    fecha_inicio_venta : string,
-    fecha_fin_venta : string,
-    comentarios_venta : string,
-    monto_total : int,
-    comision number : float,
-    estado_venta : int,
-    id_usuario : int,
-    usuario_autor : string,
-    tipo_venta : string
+    "id_venta": 0,
+    "fecha_inicio_venta": "01-01-2000",
+    "fecha_fin_venta": "01-01-2000",
+    "comentarios_venta": "Comentarios.",
+    "monto_total": 0,
+    "comision": 0,
+    "usuario_autor": {
+        "id_usuario": 0
+    },
+    "productos_venta": [
+        {
+            "producto": {
+                "id_producto": 0
+            },
+            "cantidad": 0
+        },
+        {
+            "producto": {
+                "id_producto": 0
+            },
+            "cantidad": 0
+        }
+    ]
+}
+</code>
+</pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center textoparrafo-s">
+                            <h2>Objeto Subasta</h2>
+                            <p>
+                                Un ejemplo claro del subproceso llamado subasta, en el 
+                                cual se seleccionan a los mejores productores y transportistas 
+                                con el fin de gestionar qué productos enviar al cliente, y 
+                                quién será el responsable de transportarlos. Dependiendo 
+                                del tipo de subasta, habrán distintas clases de ofertas, ya se 
+                                de productores o de transportistas.
+                            </p>
+                        </td>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    "id_subasta": 0,
+    "fecha_inicio_subasta": "01-01-2000",
+    "fecha_fin_subasta": "01-01-2000",
+    "tipo_subasta": {
+        "id_tipo_subasta": 0,
+        "descripcion": "tipo_subasta"
+    },
+    "estado_subasta": {
+        "id_estado_venta": 0,
+        "descripcion": "estado_venta"
+    },
+    "venta": {
+        "id_venta": 0
+    },
+    "ofertas_productores": [],
+    "ofertas_transportista": []
 }
 </code>
 </pre>

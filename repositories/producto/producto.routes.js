@@ -1,6 +1,6 @@
-const _productoRepository = require('./producto.repository');
+import _productoRepository from './producto.repository';
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     const productoRepository = _productoRepository();
 

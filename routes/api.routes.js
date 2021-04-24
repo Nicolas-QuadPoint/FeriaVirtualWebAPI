@@ -1,4 +1,4 @@
-const express = require('express'); 
+import express from 'express';
 
 function ApiRoutes() {
     const router = express.Router();
@@ -10,4 +10,4 @@ function ApiRoutes() {
     return router;
 }
 
-module.exports = ApiRoutes;
+export default ApiRoutes;

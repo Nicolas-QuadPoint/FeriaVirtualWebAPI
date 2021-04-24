@@ -1,9 +1,9 @@
-const express = require('express'); 
+import { Router } from 'express'; 
 
 function WebRoutes() {
-    const router = express.Router();
+    const router = Router();
     var indexcontroller = require('../controllers/index.controler')(router);
     return router;
 }
 
-module.exports = WebRoutes;
+export default WebRoutes;

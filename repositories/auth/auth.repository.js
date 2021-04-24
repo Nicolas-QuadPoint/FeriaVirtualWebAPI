@@ -1,7 +1,7 @@
-const { json } = require('express');
-const ConexionBD = require('../../db/oracledbconnector');
-const genericResponse = require('../../shared/response');
-const ex = require('../../info/exceptions/exceptions');
+import { json } from 'express';
+import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
+import genericResponse from '../../shared/response';
+import { DatabaseErrorException, InvalidCredentialsException, Exception, MethodNotImplementedException } from '../../info/exceptions/exceptions';
 
 /* Definicion de clase */
 function AuthRepository(conexion){
@@ -15,8 +15,8 @@ function AuthRepository(conexion){
                 var bd = new ConexionBD();
                 var parametros = {
                     
-                    usu_email:{ name:'email', type: ConexionBD.dbTypes.VARCHAR, val: req.body.email, dir: ConexionBD.dbTypes.IN },
-                    usu_contrasena:{ name:'contrasena', type: ConexionBD.dbTypes.VARCHAR, val: req.body.contrasena, dir: ConexionBD.dbTypes.IN }
+                    usu_email:{ name:'email', type: dbTypes.VARCHAR, val: req.body.email, dir: dbTypes.IN },
+                    usu_contrasena:{ name:'contrasena', type: dbTypes.VARCHAR, val: req.body.contrasena, dir: dbTypes.IN }
                     
                 };
                 
@@ -29,7 +29,7 @@ function AuthRepository(conexion){
                         if(e) {
 
                             console.error("Un e!: %s",e.message);
-                            res.status(500).json( ex.DatabaseErrorException );
+                            res.status(500).json( DatabaseErrorException );
 
                         }                        
                         if(result){
@@ -44,7 +44,7 @@ function AuthRepository(conexion){
 
                         }
 
-                        res.status(401).json( ex.InvalidCredentialsException );
+                        res.status(401).json( InvalidCredentialsException );
 
                     }
 
@@ -52,7 +52,7 @@ function AuthRepository(conexion){
 
             } else {
 
-                res.status(400).json( new ex.Exception (
+                res.status(400).json( new Exception (
                     400,
                     'ClientError',
                     'Debes definir los parámetros <email> y <contrasena> en el cuerpo de la petición!'
@@ -63,7 +63,7 @@ function AuthRepository(conexion){
 
         } catch(e) {
 
-            res.status(ex.InvalidCredentialsException.code).json( ex.InvalidCredentialsException );
+            res.status(InvalidCredentialsException.code).json( InvalidCredentialsException );
             console.error(`Un error!: ${e.message}`)
 
         }
@@ -74,7 +74,7 @@ function AuthRepository(conexion){
 
         try {
 
-            throw ex.MethodNotImplementedException;
+            throw MethodNotImplementedException;
 
         } catch(e) {
 
@@ -91,4 +91,4 @@ function AuthRepository(conexion){
     };
 }
 
-module.exports = AuthRepository;
+export default AuthRepository;

@@ -1,6 +1,6 @@
-const Entity = require('./Entity');
-const Subasta = require('./Subasta');
-const Transportista = require('./Transportista');
+import Entity from './Entity';
+import Subasta from './Subasta';
+import Transportista from './Transportista';
 
 class OfertaSubastaTransportista extends Entity{
 
@@ -28,4 +28,4 @@ class OfertaSubastaTransportista extends Entity{
 
 }
 
-module.exports = OfertaSubastaTransportista;
+export default OfertaSubastaTransportista;

@@ -1,23 +1,21 @@
-const path = require('path');
+import { join } from 'path';
 
 function indexController(req,res){
 
     try {
 
-        res.status(200).sendFile(path.join(__dirname + '/../views/index.html'));
+        res.status(200).sendFile(join(__dirname + '/../views/index.html'));
 
     } catch(err) {
 
-
         res.status(401).end();
-
 
     }
 
 }
 
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     objetoRouter.route('/')
         .get(indexController);

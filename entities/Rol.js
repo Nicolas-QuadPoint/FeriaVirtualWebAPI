@@ -1,4 +1,4 @@
-const Entity = require('./Entity');
+import Entity from './Entity';
 
 class Rol extends Entity{
 
@@ -22,4 +22,4 @@ class Rol extends Entity{
 
 }
 
-module.exports = Rol;
+export default Rol;

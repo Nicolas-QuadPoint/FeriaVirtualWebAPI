@@ -1,4 +1,4 @@
-const Usuario = require('./Usuario');
+import Usuario from './Usuario';
 
 class Productor extends Usuario{
 
@@ -21,4 +21,4 @@ class Productor extends Usuario{
 
 }
 
-module.exports = Productor;
+export default Productor;

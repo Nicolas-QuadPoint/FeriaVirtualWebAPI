@@ -1,5 +1,5 @@
-const ConexionBD = require('../../db/oracledbconnector');
-const ex = require('../../info/exceptions/exceptions');
+import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
+import { RecordNotFoundException, Exception, DatabaseErrorException, MethodNotImplementedException } from '../../info/exceptions/exceptions';
 
 
 function ProductoRepository(datos){
@@ -19,7 +19,7 @@ function ProductoRepository(datos){
                 var conn = new ConexionBD();
                 var parametros = {
 
-                    productoid : { name:'productoid', type: ConexionBD.dbTypes.INT, val: req.query.productoid, dir: ConexionBD.dbTypes.IN }
+                    productoid : { name:'productoid', type: dbTypes.INT, val: req.query.productoid, dir: dbTypes.IN }
 
                 };
                 
@@ -29,7 +29,7 @@ function ProductoRepository(datos){
                         
                         if(e){
                             
-                            res.status(404).json(ex.RecordNotFoundException);
+                            res.status(404).json(RecordNotFoundException);
                             console.error(`Un e!:${e.message}`);
 
                         } else {
@@ -43,7 +43,7 @@ function ProductoRepository(datos){
             } else {
 
 
-                res.status(400).json( new ex.Exception(400,"ClientException","Debe especificar el campo id del producto en la url!") );
+                res.status(400).json( new Exception(400,"ClientException","Debe especificar el campo id del producto en la url!") );
 
             }
 
@@ -67,7 +67,7 @@ function ProductoRepository(datos){
                                             
                     if(e) { //Hay e
                         
-                        res.status(500).json( ex.DatabaseErrorException );
+                        res.status(500).json( DatabaseErrorException );
                         console.error(`Un e!:${e.message}`);
 
                     }
@@ -77,7 +77,7 @@ function ProductoRepository(datos){
     
                     } else {
                         
-                        res.status(404).json( ex.RecordNotFoundException );
+                        res.status(404).json( RecordNotFoundException );
     
                     }
     
@@ -100,7 +100,7 @@ function ProductoRepository(datos){
     
     
     function modificarProducto(req,res){
-        res.status(500).json( ex.MethodNotImplementedException );
+        res.status(500).json( MethodNotImplementedException );
     }
 
     return  {
@@ -112,4 +112,4 @@ function ProductoRepository(datos){
     };
 }
 
-module.exports = ProductoRepository;
+export default ProductoRepository;

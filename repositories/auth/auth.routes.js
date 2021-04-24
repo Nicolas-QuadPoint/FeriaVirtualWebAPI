@@ -1,6 +1,6 @@
-const _authRepository = require('./auth.repository');
+import _authRepository from './auth.repository';
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     const authRepository = _authRepository();
 

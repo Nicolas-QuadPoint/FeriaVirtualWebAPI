@@ -1,7 +1,8 @@
-const Entity = require('./Entity');
-const Usuario = require('./Usuario');
-const EstadoVenta = require('./EstadoVenta');
-const TipoVenta = require('./TipoVenta');
+import Entity from './Entity';
+import Usuario from './Usuario';
+import EstadoVenta from './EstadoVenta';
+import TipoVenta from './TipoVenta';
+import ParProductoCantidad from './ParProductoCantidad';
 
 class Venta extends Entity{
 
@@ -14,7 +15,10 @@ class Venta extends Entity{
     usuario_autor = new Usuario();
     estado_venta = new EstadoVenta();
     tipo_venta = new TipoVenta();
-    productos_venta = [];
+    productos_venta = [
+        new ParProductoCantidad(),
+        new ParProductoCantidad()
+    ];
 
     constructor(){
         super();
@@ -33,4 +37,4 @@ class Venta extends Entity{
 
 }
 
-module.exports = Venta;
+export default Venta;

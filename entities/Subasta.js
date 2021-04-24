@@ -1,7 +1,7 @@
-const Entity = require('./Entity');
-const EstadoVenta = require('./EstadoVenta');
-const TipoSubasta = require('./TipoSubasta');
-const Venta = require('./Venta');
+import Entity from './Entity';
+import EstadoVenta from './EstadoVenta';
+import TipoSubasta from './TipoSubasta';
+import Venta from './Venta';
 
 class Subasta extends Entity{
 
@@ -12,10 +12,19 @@ class Subasta extends Entity{
     estado_subasta = new EstadoVenta();
     venta = new Venta();
 
-    /* Dependiendo del tipo de subasta generada, será una lista de objetos
-       OfertaSubastaProductor o OfertaSubastaTrasnportista
-     */
-    ofertas = [];
+    //Tendrá registros solo si la subasta es para productores
+    ofertas_productores = [
+
+        //new OfertaSubastaProductor()
+
+    ];
+
+    //Tendrá registros solo si la subasta es para transportistas
+    ofertas_transportistas = [
+
+       // new OfertaSubastaTransportista()
+
+    ];
 
     constructor(){
         super();
@@ -34,4 +43,4 @@ class Subasta extends Entity{
 
 }
 
-module.exports = Subasta;
+export default Subasta;

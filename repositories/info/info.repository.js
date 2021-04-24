@@ -1,8 +1,8 @@
-const { json } = require('express');
-const ex = require('../../info/exceptions/exceptions');
+import { json } from 'express';
+import ex from '../../info/exceptions/exceptions';
 
 /* Información de entidades! */
-const Entities = require('../../entities/FeriaVirtualWebAPIEntities');
+import Entities from '../../entities/FeriaVirtualWebAPIEntities';
 
 /* Definicion de clase */
 function InfoRepository(conexion){
@@ -12,6 +12,8 @@ function InfoRepository(conexion){
         var expresionSoloLetras = /^[A-Za-z0-9]{1,}$/;
 
         try {
+            
+            console.log(`Objeto a pedir: ${req.params.objectid}`);
 
             /**
              * ESTO ES PELIGROSO. NO USAR ESTE MÉTODO PARA BUSCAR EN PRODUCCIÓN!!!
@@ -46,4 +48,4 @@ function InfoRepository(conexion){
     };
 }
 
-module.exports = InfoRepository;
+export default InfoRepository;

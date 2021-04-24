@@ -1,8 +1,8 @@
-const _usuarioRepository = require('./usuario.repository');
+import _usuarioRepository from './usuario.repository';
 
 /* https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/ */
 
-module.exports = function(objetoRouter){
+export default function(objetoRouter){
 
     const usuarioRepository = _usuarioRepository();
 

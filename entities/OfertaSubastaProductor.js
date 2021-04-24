@@ -1,7 +1,7 @@
-const Entity = require('./Entity');
-const Subasta = require('./Subasta');
-const Producto = require('./Producto');
-const Productor = require('./Productor');
+import Entity from './Entity';
+import Subasta from './Subasta';
+import Producto from './Producto';
+import Productor from './Productor';
 
 class OfertaSubastaProductor extends Entity{
 
@@ -30,4 +30,4 @@ class OfertaSubastaProductor extends Entity{
 
 }
 
-module.exports = OfertaSubastaProductor;
+export default OfertaSubastaProductor;

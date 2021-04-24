@@ -1,25 +1,25 @@
-const ClienteExterno = require('./ClienteExterno');
-const EstadoContrato = require('./EstadoContrato');
-const EstadoSubasta = require('./EstadoSubasta');
-const EstadoUsuario = require('./EstadoUsuario');
-const EstadoVenta = require('./EstadoVenta');
-const Minorista = require('./Minorista');
-const Nacionalidad = require('./Nacionalidad');
-const OfertaSubastaProductor = require('./OfertaSubastaProductor');
-const OfertaSubastaTransportista = require('./OfertaSubastaTransportista');
-const Producto = require('./Producto');
-const Productor = require('./Productor');
-const Rol = require('./Rol');
-const Subasta = require('./Subasta');
-const TipoProducto = require('./TipoProducto');
-const TipoSubasta = require('./TipoSubasta');
-const TipoVenta = require('./TipoVenta');
-const Transportista = require('./Transportista');
-const Usuario = require('./Usuario');
-const Venta = require('./Venta');
+import ClienteExterno from './ClienteExterno';
+import EstadoContrato from './EstadoContrato';
+import EstadoSubasta from './EstadoSubasta';
+import EstadoUsuario from './EstadoUsuario';
+import EstadoVenta from './EstadoVenta';
+import Minorista from './Minorista';
+import Nacionalidad from './Nacionalidad';
+import OfertaSubastaProductor from './OfertaSubastaProductor';
+import OfertaSubastaTransportista from './OfertaSubastaTransportista';
+import Producto from './Producto';
+import Productor from './Productor';
+import Rol from './Rol';
+import Subasta from './Subasta';
+import TipoProducto from './TipoProducto';
+import TipoSubasta from './TipoSubasta';
+import TipoVenta from './TipoVenta';
+import Transportista from './Transportista';
+import Usuario from './Usuario';
+import Venta from './Venta';
 
 
-module.exports = {
+export default {
     ClienteExterno,
     EstadoContrato,
     EstadoSubasta,
