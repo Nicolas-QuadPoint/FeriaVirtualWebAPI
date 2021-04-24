@@ -6,6 +6,7 @@ function ApiRoutes() {
     var usuarios = require('../repositories/usuario/usuario.routes')(router);
     var ventas = require('../repositories/venta/venta.routes')(router);
     var productos = require('../repositories/producto/producto.routes')(router);
+    var info = require('../repositories/info/info.routes')(router);
     return router;
 }
 

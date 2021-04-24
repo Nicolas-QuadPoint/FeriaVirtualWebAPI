@@ -45,6 +45,9 @@
             }
             .codigo{
                 background-color: lightgray;
+                padding-left: 10px;
+                min-width: 200px;
+                overflow-x: auto;
             }
             .white{
                 background-color: white;
@@ -60,9 +63,6 @@
                 max-width:100%;
                 max-height:100%;
             }
-            .controles{
-                min-height: 23px;
-            }
         </style>
     </head>
     <body style="background: url('img/fondo-campo.png') repeat;">
@@ -74,7 +74,7 @@
                     </th>
                 </thead>
                 <tbody>
-                    <tr class="white">
+                    <tr>
                         <td>
                             <div>
                                 <img class="imagen-titulo" src="img/logo_maipo_grande.svg"/>
@@ -125,12 +125,12 @@
                             </div>                            
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <th class="center" colspan="2">
                             <h1>Banco de pruebas!</h1>
                         </th>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td colspan="2" class="textoparrafo-s">
                             <p>
                                 En este apartado puedes enviar JSON o datos a la API, y recibirás una respuesta 
@@ -155,29 +155,31 @@
                             </p>
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td>
                             <label>Escoge el método que quieres ejecutar</label>
-                            <select id="cmbMetodoApi" onchange="cmbMetodoApiValueChanged(this);" class="controles">
+                            <select id="cmbMetodoApi" onchange="cmbMetodoApiValueChanged(this);">
                                 <option data-httpmode="GET" value="nada">Selecciona un método...</option>
                                 <option data-httpmode="GET" value="usuarios">Obtener (GET) todos los usuarios (/usuarios)</option>
                                 <option data-httpmode="GET" data-paramquery=":idusuario" value="usuario/:idusuario">Obtener (GET) un usuario (/usuario/:idusuario)</option>
                                 <option data-httpmode="GET" value="productos">Obtener (GET) todos los productos (/productos)</option>
                                 <option data-httpmode="POST" value="auth/login">Enviar (POST) credenciales de acceso (/auth/login)</option>
+                                <option data-httpmode="POST" value="usuarios/nuevo-productor">Crear un nuevo usuario productor (/usuarios/nuevo-productor)</option>
                             </select>
                         <td>
                             <a id="lblEnlacePeticion" href="#">El enlace final aparecerá aquí!</a>
                         </td>
-                    <tr class="white">
+                    <tr>
                         <td>
                             <label>En este recuadro escribe el objeto JSON que quieres enviar</label>
-                            <button onclick="enviarSolicitud();" class="controles">Enviar!</button>
+                            <button onclick="enviarSolicitud();">Enviar!</button>
+                            <button onclick="formatearJSON();">Formatear JSON</button>
                         </td>
                         <td>
                             <label>Tu resultado aparecerá aquí!</label>
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td>
                             <textarea id="taPeticion" rows="15" style="width: 100%;height: max-content;resize: none;"></textarea>
                         </td>
@@ -185,12 +187,12 @@
                             <textarea id="taRespuesta" rows="15"  style="width: 100%;height: max-content;resize: none;"></textarea>
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <th class="center" colspan="2">
                             <h1>Objetos permitidos en API</h1>
                         </th>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td class="center textoparrafo-s">
                             <h2>Objeto Autenticador</h2>
                             <p style="max-width: inherit;">
@@ -200,16 +202,18 @@
                                 bytes.
                             </p>
                         </td>
-                        <td class="pad-10 codigo">
-                            <code>
-                                {<br/>
-                                    "email": string,<br/>
-                                    "contrasena": string<br/>
-                                }<br/>
-                            </code>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    "email": string,
+    "contrasena": string
+}
+</code>
+</pre>
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td class="center textoparrafo-s">
                             <h2>Objeto Usuario</h2>
                             <p>
@@ -225,29 +229,46 @@
                                 y obviando otros.
                             </p>
                         </td>
-                        <td class="pad-10 codigo">
-                            <code>
-                                {<br/>
-                                    "usuarioid": int,<br/>
-                                    "personalid": string,<br/>
-                                    "nombre": string,<br/>
-                                    "nombresegundo": string,<br/>
-                                    "apellidopaterno": string,<br/>
-                                    "apellidomaterno": string,<br/>
-                                    "fechanac": string,<br/>
-                                    "telefono": int,<br/>
-                                    "direccion": string,<br/>
-                                    "email": string,<br/>
-                                    "contrasena": string,<br/>
-                                    "nacionalidad": string,<br/>
-                                    "rol": string,<br/>
-                                    "estadocontrato": string,<br/>
-                                    "estadousuario": string<br/>
-                                }<br/>
-                            </code>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    "id_usuario": 0,
+    "personal_id": "111111111",
+    "nombre": "Usuario",
+    "nombre_segundo": "Nombre segundo",
+    "apellido_paterno": "Apellido paterno",
+    "apellido_materno": "Apellido materno",
+    "fecha_nacimiento": "01-01-2000",
+    "telefono": 123456789,
+    "direccion": "Direccion",
+    "email": "email@domain.cc",
+    "contrasena": "Contraseña",
+    "salt_contrasena": "Salt Contraseña",
+    "nacionalidad": {
+        "id_nacionalidad": 0,
+        "iso": "cl",
+        "nombre": "Chile",
+        "codigo_telefonico": 56
+    },
+    "rol": {
+        "id_rol": 0,
+        "description": "rol"
+    },
+    "estado_usuario": {
+        "id_estado_usuario": 0,
+        "descripcion": "estado_usuario"
+    },
+    "estado_contrato": {
+        "id_estado_contrato": 0,
+        "descripcion": "estado_contrato"
+    }
+}
+</code>
+</pre>
                         </td>
                     </tr>
-                    <tr class="white">
+                    <tr>
                         <td class="center textoparrafo-s">
                             <h2>Objeto Producto</h2>
                             <p>
@@ -256,16 +277,73 @@
 
                             </p>
                         </td>
-                        <td class="pad-10 codigo">
-                            <code>
-                                {<br/>
-                                    "idproducto":int,<br/>
-                                    "nombre":string,<br/>
-                                    "volumen":float - double,<br/>
-                                    "tipoproducto": int,<br/>
-                                    "costomantencion": int<br/>
-                                }<br/>
-                            </code>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    "idproducto":int,
+    "nombre":string,
+    "volumen":float - double,
+    "tipoproducto": int,
+    "costomantencion": int
+}
+</code>
+</pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center textoparrafo-s">
+                            <h2>Objeto Solicitud de Venta</h2>
+                            <p>
+                                Objeto compuesto que requiere la clase de 
+                                productos que se requieran comprar por parte del cliente 
+                                La venta creada tendría un estado inicial que permita 
+                                al administrador configurar las subastas.
+                            </p>
+                        </td>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    "comentarios": string,
+    "id_tipo_venta": int,
+    "id_usuario_autor": int
+    "lista_productos": {
+        "id_producto" : int,
+        "kilos" : int
+    },
+}
+</code>
+</pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center textoparrafo-s">
+                            <h2>Objeto Venta</h2>
+                            <p>
+                                Este objeto es utiizado solamente con 
+                                fines informativos. Siendo útil para 
+                                saber la información clara sin la necesidad 
+                                de llamar a más métodos de la API.
+                            </p>
+                        </td>
+                        <td class="codigo">
+<pre>
+<code>
+{
+    id_venta : int,
+    fecha_inicio_venta : string,
+    fecha_fin_venta : string,
+    comentarios_venta : string,
+    monto_total : int,
+    comision number : float,
+    estado_venta : int,
+    id_usuario : int,
+    usuario_autor : string,
+    tipo_venta : string
+}
+</code>
+</pre>
                         </td>
                     </tr>
                 </tbody>
@@ -332,8 +410,12 @@
                 peticion.send(taPeticion.value);
 
             }
-            
+        }
 
+        function formatearJSON(){
+
+            var taPeticion = document.getElementById('taPeticion');
+            taPeticion.value = JSON.stringify(JSON.parse(taPeticion.value), null, 4);
 
         }
     </script>
