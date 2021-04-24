@@ -1,8 +1,8 @@
 import { json } from 'express';
-import ex from '../../info/exceptions/exceptions';
+import ex from '../../info/exceptions/exceptions.js';
 
 /* Información de entidades! */
-import Entities from '../../entities/FeriaVirtualWebAPIEntities';
+import Entities from '../../entities/FeriaVirtualWebAPIEntities.js';
 
 /* Definicion de clase */
 function InfoRepository(conexion){

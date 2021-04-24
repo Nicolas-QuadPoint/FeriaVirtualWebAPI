@@ -1,4 +1,4 @@
-import _productoRepository from './producto.repository';
+import _productoRepository from './producto.repository.js';
 
 export default function(objetoRouter){
 

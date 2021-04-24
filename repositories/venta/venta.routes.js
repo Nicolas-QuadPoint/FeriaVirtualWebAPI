@@ -1,4 +1,4 @@
-import _ventasRepository from './venta.repository';
+import _ventasRepository from './venta.repository.js';
 
 export default function(objetoRouter){
 

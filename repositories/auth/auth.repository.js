@@ -1,7 +1,10 @@
 import { json } from 'express';
-import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
-import genericResponse from '../../shared/response';
-import { DatabaseErrorException, InvalidCredentialsException, Exception, MethodNotImplementedException } from '../../info/exceptions/exceptions';
+import ConexionBD from '../../db/oracledbconnector.js';
+import genericResponse from '../../shared/response.js';
+import { DatabaseErrorException, 
+    InvalidCredentialsException, 
+    Exception, 
+    MethodNotImplementedException } from '../../info/exceptions/exceptions.js';
 
 /* Definicion de clase */
 function AuthRepository(conexion){
@@ -15,8 +18,8 @@ function AuthRepository(conexion){
                 var bd = new ConexionBD();
                 var parametros = {
                     
-                    usu_email:{ name:'email', type: dbTypes.VARCHAR, val: req.body.email, dir: dbTypes.IN },
-                    usu_contrasena:{ name:'contrasena', type: dbTypes.VARCHAR, val: req.body.contrasena, dir: dbTypes.IN }
+                    usu_email:{ name:'email', type: ConexionBD.dbTypes.VARCHAR, val: req.body.email, dir: ConexionBD.dbTypes.IN },
+                    usu_contrasena:{ name:'contrasena', type: ConexionBD.dbTypes.VARCHAR, val: req.body.contrasena, dir: ConexionBD.dbTypes.IN }
                     
                 };
                 

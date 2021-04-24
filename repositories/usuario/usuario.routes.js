@@ -1,4 +1,4 @@
-import _usuarioRepository from './usuario.repository';
+import _usuarioRepository from './usuario.repository.js';
 
 /* https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/ */
 

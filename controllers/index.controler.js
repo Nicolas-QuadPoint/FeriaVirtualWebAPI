@@ -1,10 +1,15 @@
-import { join } from 'path';
+import Path from 'path';
+import URL from 'url';
+
+const __dirname = URL.fileURLToPath(import.meta.url);
 
 function indexController(req,res){
 
     try {
 
-        res.status(200).sendFile(join(__dirname + '/../views/index.html'));
+        console.log(__dirname);
+
+        res.status(200).sendFile(Path.join(__dirname + '/../../views/index.html'));
 
     } catch(err) {
 

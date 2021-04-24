@@ -1,30 +1,39 @@
-import express, { static, json } from 'express';
-import { join } from 'path';
-import { config } from 'dotenv';
+import express from 'express';
+import Path from 'path';
+import URL from 'url';
+import DotEnv from 'dotenv';
+import WebRoutes from './routes/web.routes.js';
+import APIRoutes from './routes/api.routes.js';
 
 const app = express();
-const apiroutes = require('./routes/api.routes')();
-const webroutes = require('./routes/web.routes')();
+const apiRoutes = APIRoutes();
+const webRoutes = WebRoutes();
+
+/* https://stackoverflow.com/a/62892482 */
+const __dirname = URL.fileURLToPath(import.meta.url);
 
 /* https://en.wikipedia.org/wiki/List_of_HTTP_status_codes */
 
 //Configuring enviromental values
-config();
+DotEnv.config();
 
 
 //Public resources - Todo debajo de la carpeta indicada,
 //sera de acceso publico para el usuario
-app.use(static(join(__dirname, 'public')));
-app.set('views', join(__dirname, 'views'));
+app.use(express.static(Path.join(__dirname, '../public')));
+app.set('views', Path.join(__dirname, '../views'));
+
+//Usamos las cookies
+//app.use(cookieParser());
 
 //Allow responses to be parsed to JSON.
-app.use(json());
+app.use(express.json());
 
 //Web Routes
-app.use('/',webroutes);
+app.use('/',webRoutes);
 
 //API Routes
-app.use('/api/v1',apiroutes);
+app.use('/api/v1',apiRoutes);
 
 //Init the server
 app.listen(3000,() => console.log('Servidor iniciado en puerto %d!',3000));

@@ -1,7 +1,10 @@
-import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
-import utility from '../../db/utilities/utility';
-import genericResponse from '../../shared/response';
-import { MethodNotImplementedException, DatabaseErrorException, RecordNotFoundException, InvalidArgumentException } from '../../info/exceptions/exceptions';
+import ConexionBD from '../../db/oracledbconnector.js';
+import utility from '../../db/utilities/utility.js';
+import genericResponse from '../../shared/response.js';
+import { MethodNotImplementedException, 
+    DatabaseErrorException, 
+    RecordNotFoundException, 
+    InvalidArgumentException } from '../../info/exceptions/exceptions.js';
 
 /* Definicion de clase */
 function VentasRepository(datos){
@@ -36,7 +39,7 @@ function VentasRepository(datos){
                 var conn = new ConexionBD();
 
                 var parametros = {
-                    ventaid:{ name:'ventaid', type: dbTypes.INT, val: venta_id, dir: dbTypes.IN }
+                    ventaid:{ name:'ventaid', type: ConexionBD.dbTypes.INT, val: venta_id, dir: ConexionBD.dbTypes.IN }
                 };
 
                 conn.executeQuery("select * from table ( pkg_venta.func_get_venta(:ventaid) )",parametros,{},
@@ -85,7 +88,7 @@ function VentasRepository(datos){
                 var conn = new ConexionBD();
 
                 var parametros = {
-                    usuarioid:{ name:'usuarioid', type: dbTypes.INT, val: usu_id, dir: dbTypes.IN }
+                    usuarioid:{ name:'usuarioid', type: ConexionBD.dbTypes.INT, val: usu_id, dir: ConexionBD.dbTypes.IN }
                 };
 
                 conn.executeQuery("select * from table ( pkg_venta.func_get_all_ventas_usuario(:usuarioid) )",parametros,{},

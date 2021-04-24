@@ -1,5 +1,8 @@
-import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
-import { RecordNotFoundException, Exception, DatabaseErrorException, MethodNotImplementedException } from '../../info/exceptions/exceptions';
+import ConexionBD from '../../db/oracledbconnector.js';
+import { RecordNotFoundException,
+    Exception, 
+    DatabaseErrorException, 
+    MethodNotImplementedException } from '../../info/exceptions/exceptions.js';
 
 
 function ProductoRepository(datos){
@@ -19,7 +22,7 @@ function ProductoRepository(datos){
                 var conn = new ConexionBD();
                 var parametros = {
 
-                    productoid : { name:'productoid', type: dbTypes.INT, val: req.query.productoid, dir: dbTypes.IN }
+                    productoid : { name:'productoid', type: ConexionBD.dbTypes.INT, val: req.query.productoid, dir: ConexionBD.dbTypes.IN }
 
                 };
                 

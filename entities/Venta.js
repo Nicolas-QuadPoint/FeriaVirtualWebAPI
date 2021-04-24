@@ -1,8 +1,8 @@
-import Entity from './Entity';
-import Usuario from './Usuario';
-import EstadoVenta from './EstadoVenta';
-import TipoVenta from './TipoVenta';
-import ParProductoCantidad from './ParProductoCantidad';
+import Entity from './Entity.js';
+import Usuario from './Usuario.js';
+import EstadoVenta from './EstadoVenta.js';
+import TipoVenta from './TipoVenta.js';
+import ParProductoCantidad from './ParProductoCantidad.js';
 
 class Venta extends Entity{
 

@@ -1,7 +1,7 @@
-import ConexionBD, { dbTypes } from '../../db/oracledbconnector';
-import { OUT_FORMAT_ARRAY } from 'oracledb';
-import ex from '../../info/exceptions/exceptions';
-import Usuario from '../../entities/Usuario';
+import ConexionBD from '../../db/oracledbconnector.js';
+import Ora from 'oracledb';
+import ex from '../../info/exceptions/exceptions.js';
+import Usuario from '../../entities/Usuario.js';
 
 function UsuarioRepository(data){
 
@@ -31,13 +31,11 @@ function UsuarioRepository(data){
             var bd = new ConexionBD();
             var usuarioid = Number(req.params.usuarioid);;
 
-
-
             if(req.params.usuarioid && !isNaN(usuarioid)){
                 
                 var parametros = {
                     
-                    idUsuario:{ name:'idUsuario', type: dbTypes.INT, val: usuarioid, dir: dbTypes.IN }
+                    idUsuario:{ name:'idUsuario', type: ConexionBD.dbTypes.INT, val: usuarioid, dir: ConexionBD.dbTypes.IN }
                 };
                 
                 bd.executeQuery('select * from table( pkg_usuario.func_get_info_usuario( :idUsuario ) )', parametros,{},
@@ -88,7 +86,7 @@ function UsuarioRepository(data){
             var bd = new ConexionBD();
 
             bd.executeQuery('select * from table( pkg_usuario.func_get_all_usuarios() )', {},
-                { outFormat : OUT_FORMAT_ARRAY },
+                { outFormat : Ora.OUT_FORMAT_ARRAY },
 
                 function (e,result) {
                                             

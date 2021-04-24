@@ -1,6 +1,6 @@
-import Entity from './Entity';
-import Subasta from './Subasta';
-import Transportista from './Transportista';
+import Entity from './Entity.js';
+import Subasta from './Subasta.js';
+import Transportista from './Transportista.js';
 
 class OfertaSubastaTransportista extends Entity{
 

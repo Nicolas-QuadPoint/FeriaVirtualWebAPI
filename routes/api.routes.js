@@ -1,13 +1,16 @@
 import express from 'express';
+import AuthRoutes from '../repositories/auth/auth.routes.js';
+import UsuariosRoutes from '../repositories/usuario/usuario.routes.js';
+import VentasRoutes from '../repositories/venta/venta.routes.js';
+import ProductosRoutes from '../repositories/producto/producto.routes.js';
+import InfoRoutes from '../repositories/info/info.routes.js';
 
-function ApiRoutes() {
+export default function() {
     const router = express.Router();
-    var auth = require('../repositories/auth/auth.routes')(router);
-    var usuarios = require('../repositories/usuario/usuario.routes')(router);
-    var ventas = require('../repositories/venta/venta.routes')(router);
-    var productos = require('../repositories/producto/producto.routes')(router);
-    var info = require('../repositories/info/info.routes')(router);
+    var auth = AuthRoutes(router);
+    var usuarios = UsuariosRoutes(router);
+    var ventas = VentasRoutes(router);
+    var productos = ProductosRoutes(router);
+    var info = InfoRoutes(router);
     return router;
 }
-
-export default ApiRoutes;

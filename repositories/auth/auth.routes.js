@@ -1,4 +1,4 @@
-import _authRepository from './auth.repository';
+import _authRepository from './auth.repository.js';
 
 export default function(objetoRouter){
 

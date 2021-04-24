@@ -1,7 +1,7 @@
-import Entity from './Entity';
-import EstadoVenta from './EstadoVenta';
-import TipoSubasta from './TipoSubasta';
-import Venta from './Venta';
+import Entity from './Entity.js';
+import EstadoVenta from './EstadoVenta.js';
+import TipoSubasta from './TipoSubasta.js';
+import Venta from './Venta.js';
 
 class Subasta extends Entity{
 

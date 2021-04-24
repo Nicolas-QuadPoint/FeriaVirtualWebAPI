@@ -1,4 +1,4 @@
-import _infoRepository from './info.repository';
+import _infoRepository from './info.repository.js';
 
 export default function(objetoRouter){
 

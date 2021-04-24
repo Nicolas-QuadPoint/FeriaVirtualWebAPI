@@ -1,4 +1,4 @@
-import Usuario from './Usuario';
+import Usuario from './Usuario.js';
 
 class Minorista extends Usuario{
 

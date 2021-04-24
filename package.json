@@ -2,7 +2,8 @@
   "name": "feriavirtual-api",
   "version": "1.0.0",
   "description": "API Web para utlizarse en la aplicacion FeriaVirtualMóvil y FeriaVirtualWeb,\r  escrito para Node.JS.",
-  "main": "index.js",
+  "main": "app.js",
+  "type":"module",
   "scripts": {
     "start": "nodemon app.js"
   },

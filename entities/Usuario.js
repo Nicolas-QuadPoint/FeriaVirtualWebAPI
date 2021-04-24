@@ -1,8 +1,8 @@
-import Entity from './Entity';
-import EstadoContrato from './EstadoContrato';
-import EstadoUsuario from './EstadoUsuario';
-import Nacionalidad from './Nacionalidad';
-import Rol from './Rol';
+import Entity from './Entity.js';
+import EstadoContrato from './EstadoContrato.js';
+import EstadoUsuario from './EstadoUsuario.js';
+import Nacionalidad from './Nacionalidad.js';
+import Rol from './Rol.js';
 
 class Usuario extends Entity{
 

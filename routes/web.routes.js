@@ -1,9 +1,8 @@
 import { Router } from 'express'; 
+import IndexController from '../controllers/index.controler.js';
 
-function WebRoutes() {
+export default function(){
     const router = Router();
-    var indexcontroller = require('../controllers/index.controler')(router);
+    var indexcontroller = IndexController(router);
     return router;
-}
-
-export default WebRoutes;
+};

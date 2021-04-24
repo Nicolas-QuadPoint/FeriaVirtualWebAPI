@@ -1,7 +1,7 @@
-import Entity from './Entity';
-import Subasta from './Subasta';
-import Producto from './Producto';
-import Productor from './Productor';
+import Entity from './Entity.js';
+import Subasta from './Subasta.js';
+import Producto from './Producto.js';
+import Productor from './Productor.js';
 
 class OfertaSubastaProductor extends Entity{
 

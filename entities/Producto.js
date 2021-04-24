@@ -1,5 +1,5 @@
-import Entity from './Entity';
-import TipoProducto from './TipoProducto';
+import Entity from './Entity.js';
+import TipoProducto from './TipoProducto.js';
 
 class Producto extends Entity{
 
