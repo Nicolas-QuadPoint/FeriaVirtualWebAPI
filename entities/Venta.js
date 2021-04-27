@@ -24,15 +24,8 @@ class Venta extends Entity{
         super();
     }
 
-    buildFromArray(arr = []){
-
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
-        }
-    }
-
     validate(){
-        return false;
+        return true;
     }
 
 }

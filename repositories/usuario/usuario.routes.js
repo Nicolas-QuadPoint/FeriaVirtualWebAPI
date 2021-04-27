@@ -9,13 +9,7 @@ export default function(objetoRouter){
     objetoRouter.route('/usuarios')
         .get(usuarioRepository.getUsuarios);
 
-    objetoRouter.route('/usuarios/nuevo-productor')
-        .post(usuarioRepository.nuevoUsuario);
-    
-    objetoRouter.route('/usuarios/nuevo-cliente')
-        .post(usuarioRepository.nuevoUsuario);
-    
-    objetoRouter.route('/usuarios/nuevo-admin')
+    objetoRouter.route('/usuarios/nuevo')
         .post(usuarioRepository.nuevoUsuario);
 
 

@@ -1,10 +1,7 @@
 import ConexionBD from '../../db/oracledbconnector.js';
-import utility from '../../db/utilities/utility.js';
+import utility from '../../utilities/utilities.js';
 import genericResponse from '../../shared/response.js';
-import { MethodNotImplementedException, 
-    DatabaseErrorException, 
-    RecordNotFoundException, 
-    InvalidArgumentException } from '../../info/exceptions/exceptions.js';
+import ex from '../../info/exceptions/exceptions.js';
 
 /* Definicion de clase */
 function VentasRepository(datos){
@@ -18,7 +15,7 @@ function VentasRepository(datos){
             
             console.log(req.body);
 
-            res.status(501).json( MethodNotImplementedException );
+            res.status(501).json( new ex.MethodNotImplementedException() );
 
         } catch(e) {
 
@@ -47,7 +44,7 @@ function VentasRepository(datos){
                     
                     if(e){
 
-                        res.status(500).json( DatabaseErrorException );
+                        res.status(500).json( new ex.DatabaseErrorException() );
                         console.error(`Un error!: ${e.message}`);
 
                     } else if(results && results.rows[0]) {
@@ -56,7 +53,7 @@ function VentasRepository(datos){
 
                     } else {
 
-                        res.status(404).json( RecordNotFoundException );
+                        res.status(404).json( new ex.RecordNotFoundException() );
 
                     }
 
@@ -65,7 +62,7 @@ function VentasRepository(datos){
 
             } else {
 
-                res.status(400).json( InvalidArgumentException );
+                res.status(400).json( new ex.InvalidArgumentException() );
 
             }
 
@@ -96,7 +93,7 @@ function VentasRepository(datos){
                     
                     if(e){
 
-                        res.status(500).json( DatabaseErrorException );
+                        res.status(500).json( new ex.DatabaseErrorException() );
                         console.error(`Un error!: ${e.message}`);
 
                     } else if(results && results.rows[0]) {
@@ -136,7 +133,7 @@ function VentasRepository(datos){
                 
                 if(e){
 
-                    res.status(500).json( DatabaseErrorException );
+                    res.status(500).json( new ex.DatabaseErrorException() );
                     console.error(`Un error!: ${e.message}`);
 
                 } else if(results && results.rows[0]) {
@@ -145,7 +142,7 @@ function VentasRepository(datos){
 
                 } else {
 
-                    res.status(404).json( RecordNotFoundException );
+                    res.status(404).json( new ex.RecordNotFoundException() );
 
                 }
 
@@ -163,7 +160,7 @@ function VentasRepository(datos){
 
         try {
 
-            res.status(501).json( MethodNotImplementedException );
+            res.status(501).json( new ex.MethodNotImplementedException() );
 
         } catch(e) {
 

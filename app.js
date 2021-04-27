@@ -12,8 +12,6 @@ const webRoutes = WebRoutes();
 /* https://stackoverflow.com/a/62892482 */
 const __dirname = URL.fileURLToPath(import.meta.url);
 
-/* https://en.wikipedia.org/wiki/List_of_HTTP_status_codes */
-
 //Configuring enviromental values
 DotEnv.config();
 

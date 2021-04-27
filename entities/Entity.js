@@ -11,7 +11,7 @@ class Entity {
 */
 
     buildFromObject(obj = {}){
-        Object.assign(this,props);
+        Object.assign(this,obj);
     }
 
     buildFromArray(arr = []){
@@ -19,6 +19,10 @@ class Entity {
         for(var i = 0; i < arr.length; i++){
             //Do nothing
         }
+    }
+
+    clone(obj = {},safe=false){
+        
     }
 
     validate(){

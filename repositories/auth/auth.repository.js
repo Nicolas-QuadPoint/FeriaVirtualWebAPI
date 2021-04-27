@@ -47,7 +47,7 @@ function AuthRepository(conexion){
 
                         }
 
-                        res.status(401).json( InvalidCredentialsException );
+                        res.status(401).json( new InvalidCredentialsException() );
 
                     }
 
@@ -66,7 +66,9 @@ function AuthRepository(conexion){
 
         } catch(e) {
 
-            res.status(InvalidCredentialsException.code).json( InvalidCredentialsException );
+            ex = new InvalidCredentialsException();
+
+            res.status(ex.code).json( ex );
             console.error(`Un error!: ${e.message}`)
 
         }
@@ -77,7 +79,7 @@ function AuthRepository(conexion){
 
         try {
 
-            throw MethodNotImplementedException;
+            throw new MethodNotImplementedException();
 
         } catch(e) {
 

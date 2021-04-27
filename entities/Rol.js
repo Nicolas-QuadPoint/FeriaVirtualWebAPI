@@ -3,17 +3,26 @@ import Entity from './Entity.js';
 class Rol extends Entity{
 
     id_rol = 0;
-    description = 'rol';
+    descripcion = 'rol';
 
     constructor(){
         super();
     }
 
-    buildFromArray(arr = []){
+    clone(obj={},safe=false){
+        
+        if(safe){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
+            this.id_rol = util.isNullOrUndefined(obj.id_rol)? 0 : obj.id_rol;
+            this.descripcion = util.isNullOrUndefined(obj.descripcion)? ' ' : obj.descripcion;
+
+        } else {
+
+            this.id_rol = obj.id_rol;
+            this.descripcion = obj.descripcion;
+
         }
+
     }
 
     validate(){

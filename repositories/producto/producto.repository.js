@@ -1,8 +1,5 @@
 import ConexionBD from '../../db/oracledbconnector.js';
-import { RecordNotFoundException,
-    Exception, 
-    DatabaseErrorException, 
-    MethodNotImplementedException } from '../../info/exceptions/exceptions.js';
+import ex from '../../info/exceptions/exceptions.js';
 
 
 function ProductoRepository(datos){
@@ -32,7 +29,7 @@ function ProductoRepository(datos){
                         
                         if(e){
                             
-                            res.status(404).json(RecordNotFoundException);
+                            res.status(404).json(new ex.RecordNotFoundException());
                             console.error(`Un e!:${e.message}`);
 
                         } else {
@@ -46,7 +43,7 @@ function ProductoRepository(datos){
             } else {
 
 
-                res.status(400).json( new Exception(400,"ClientException","Debe especificar el campo id del producto en la url!") );
+                res.status(400).json( ex.Exception.new(400,"ClientException","Debe especificar el campo id del producto en la url!") );
 
             }
 
@@ -70,7 +67,7 @@ function ProductoRepository(datos){
                                             
                     if(e) { //Hay e
                         
-                        res.status(500).json( DatabaseErrorException );
+                        res.status(500).json( new ex.DatabaseErrorException() );
                         console.error(`Un e!:${e.message}`);
 
                     }
@@ -80,7 +77,7 @@ function ProductoRepository(datos){
     
                     } else {
                         
-                        res.status(404).json( RecordNotFoundException );
+                        res.status(404).json( new ex.RecordNotFoundException() );
     
                     }
     
@@ -96,14 +93,12 @@ function ProductoRepository(datos){
     }
     
     function nuevoProducto(req,res){
-        res.status(500).json(
-            new MensajeException(500,'NotImplemented','No Implementado mijo')
-        );
+        res.status(500).json( new ex.MethodNotImplementedException() );
     }
     
     
     function modificarProducto(req,res){
-        res.status(500).json( MethodNotImplementedException );
+        res.status(500).json( new ex.MethodNotImplementedException() );
     }
 
     return  {

@@ -9,17 +9,21 @@ class EstadoVenta extends Entity{
         super();
     }
 
-    buildFromArray(arr = []){
+    clone(obj={},safe=false){
+        
+        if(safe){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
+            this.id_estado_venta = util.isNullOrUndefined(obj.id_estado_venta)? 0 : obj.id_estado_venta;
+            this.descripcion = util.isNullOrUndefined(obj.descripcion)? ' ' : obj.descripcion;
+
+        } else {
+
+            this.id_estado_venta = obj.id_estado_venta;
+            this.descripcion = obj.descripcion;
+
         }
-    }
 
-    validate(){
-        return true;
     }
-
 }
 
 export default EstadoVenta;

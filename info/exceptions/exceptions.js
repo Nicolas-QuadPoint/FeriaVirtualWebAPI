@@ -1,40 +1,111 @@
+/* https://en.wikipedia.org/wiki/List_of_HTTP_status_codes */
 
-export const RecordNotFoundException = 
-{ code : 404, name : "RecordNotFoundException", message : "The record was not found in the collection."};
-
-export const InvalidCredentialsException = 
-{ code : 401, name : "InvalidCredentialsException", message : "Either email or password are not correct."};
-
-export const InvalidArgumentException = 
-{ code : 400, name : "InvalidArgumentException", message : "The data sended are not match the required by the method"};
-
-export const DatabaseErrorException = 
-{ code : 500, name : "DatabaseErrorException", message : "An error in the database has ocurred"};
-
-export const MethodNotImplementedException =
-{ code : 501, name : "MethodNotImplementedException", message : "Aún no implementado, mijo"};
-
-export const APIException =
-{ code : 500, name : "APIException", message : "API internal error, check the log!"};
-
-export const InvalidAccessException = 
-{ code : 403, name : "InvalidAccessException", message : "You tried to access without autentication. This is not allowed."};
-
-export const MethodGoneException = 
-{ code : 410, name : "MethodGoneException", message : "This method will be removed in future release. Please, update your application"};
-
-export class Exception {
+export class Exception extends Error {
 
     code = 0;
     name = 'Exception';
     message = 'Generic Exception';
 
-    constructor(code,name,message){
-        this.code = code;
-        this.name = name;
-        this.message = message;
+    constructor(){
+        super();
     }
 
+    static new(code,name,message){
+        var ex = new Exception();
+        ex.code = code;
+        ex.name = name;
+        ex.message = message;
+        return ex;
+    }
+
+}
+
+export class RecordNotFoundException extends Exception {
+    
+    code = 404;
+    name = "RecordNotFoundException";
+    message = "The record was not found in the collection.";
+
+    constructor(){
+        super();
+    }
+}
+
+export class InvalidCredentialsException extends Exception{
+
+    code = 401; 
+    name = "InvalidCredentialsException"; 
+    message = "Either email or password are not correct.";
+
+    constructor(){
+        super();
+    }
+}
+
+export class InvalidArgumentException extends Exception {
+    
+    code = 400;
+    name = "InvalidArgumentException";
+    message = "The data sended are not match the required by the method";
+
+    constructor(){
+        super();
+    }
+}
+
+export class DatabaseErrorException extends Exception{
+    
+    code = 500; 
+    name = "DatabaseErrorException";
+    message = "An error in the database has ocurred";
+    
+    constructor(){
+        super();
+    }
+}
+
+export class MethodNotImplementedException extends Exception {
+    
+    code = 501;
+    name = "MethodNotImplementedException";
+    message = "Aún no implementado, mijo";
+
+    constructor(){
+        super();
+    }
+}
+
+export class APIException extends Exception {
+    
+    code = 500;
+    name = "APIException";
+    message = "API internal error, check the log!";
+
+    constructor(){
+        super();
+    }
+}
+
+export class InvalidAccessException extends Exception {
+    
+    code = 403;
+    name = "InvalidAccessException";
+    message = "You tried to access without autentication. This is not allowed.";
+
+    constructor(){
+        super();
+    }
+}
+
+export class MethodGoneException extends Exception{
+
+    code = 410;
+    name = "MethodGoneException";
+    message = "This method does nothing and it will be removed in future release. Please, update your application";
+
+    constructor(){
+        super();
+    }
 }
 
 

@@ -11,13 +11,74 @@ function UsuarioRepository(data){
 
         try {
 
-            //if(req.body.)
-            res.status(501).json( new Usuario());
-            //throw ex.MethodNotImplementedException;
+            var u = new Usuario();
+            u.clone(req.body);
+
+            if(u.validate()) {
+
+                console.log('El objeto Usuario es válido!');
+
+                var bd = new ConexionBD();
+                var succ = 0;
+
+                /**
+                 * 
+                 */
+
+                var parametros = {
+                    usu_personalID :{ name:'idUsuario', type: ConexionBD.dbTypes.VARCHAR, val: u.personal_id, dir: ConexionBD.dbTypes.IN },
+                    usu_nombre :{ name:'usu_nombre', type: ConexionBD.dbTypes.VARCHAR, val: u.nombre, dir: ConexionBD.dbTypes.IN },
+                    usu_nombreSegundo :{ name:'usu_nombreSegundo', type: ConexionBD.dbTypes.VARCHAR, val: u.nombre_segundo, dir: ConexionBD.dbTypes.IN },
+                    usu_apellidoPat :{ name:'usu_apellidoPat', type: ConexionBD.dbTypes.VARCHAR, val: u.apellido_paterno, dir: ConexionBD.dbTypes.IN },
+                    usu_apellidoMat :{ name:'usu_apellidoMat', type: ConexionBD.dbTypes.VARCHAR, val: u.apellido_materno, dir: ConexionBD.dbTypes.IN },
+                    usu_fechanac :{ name:'usu_fechanac', type: ConexionBD.dbTypes.VARCHAR, val: u.fecha_nacimiento, dir: ConexionBD.dbTypes.IN },
+                    usu_telefono :{ name:'usu_telefono', type: ConexionBD.dbTypes.INT, val: u.telefono, dir: ConexionBD.dbTypes.IN },
+                    usu_direccion :{ name:'usu_direccion', type: ConexionBD.dbTypes.VARCHAR, val: u.direccion, dir: ConexionBD.dbTypes.IN },
+                    usu_email :{ name:'usu_email', type: ConexionBD.dbTypes.VARCHAR, val: u.email, dir: ConexionBD.dbTypes.IN },
+                    usu_passwd :{ name:'usu_passwd', type: ConexionBD.dbTypes.VARCHAR, val: u.contrasena, dir: ConexionBD.dbTypes.IN },
+                    usu_salt_passwd :{ name:'usu_salt_passwd', type: ConexionBD.dbTypes.VARCHAR, val: u.salt_contrasena, dir: ConexionBD.dbTypes.IN },
+                    usu_idNacionalidad :{ name:'usu_idNacionalidad', type: ConexionBD.dbTypes.INT, val: u.nacionalidad.id_nacionalidad, dir: ConexionBD.dbTypes.IN },
+                    usu_idRol :{ name:'usu_idRol', type: ConexionBD.dbTypes.INT, val: u.rol.id_rol, dir: ConexionBD.dbTypes.IN },
+                    usu_idEstadoUsuario :{ name:'usu_idEstadoUsuario', type: ConexionBD.dbTypes.INT, val: u.estado_usuario.id_estado_usuario, dir: ConexionBD.dbTypes.IN },
+                    exito :{ name:'exito', type: ConexionBD.dbTypes.INT, val: succ, dir: ConexionBD.dbTypes.INOUT }
+                };
+
+                bd.executeStoredProcedure(`pkg_usuario.proc_crear_usuario`,parametros,{},
+                    function(error,results){
+
+                        if(error){
+                            
+                            console.error(`Paso algo! ${error}`);
+                            res.status(500).json( new ex.DatabaseErrorException() );
+
+                        } else if (results && results.outBinds){
+                            
+                            res.status(200).json( { id:results.outBinds.exito } );
+
+                        } else {
+
+                            res.status(500).json( new ex.DatabaseErrorException() );
+
+                        }
+
+                    }
+                );
+                    
+                
+
+            } else {
+                console.log('El objeto Usuario NO es válido!');
+                res.status(400).json( new ex.InvalidArgumentException() );
+            }
 
         } catch(e) {
 
-            res.status(e.code).json( e );
+            if(e instanceof ex.Exception)
+                res.status(e.code).json( e );
+            else
+                res.status(500).json( new ex.APIException() );
+
+            console.error(`Pasó algo!: ${e}`);
 
         }
 
@@ -43,9 +104,11 @@ function UsuarioRepository(data){
                     function (e,result) {
                                                 
                         if(e) { //Hay error?
-                            
-                            res.status(ex.DatabaseErrorException).json(ex.DatabaseErrorException);
+
+                            var exception = new ex.DatabaseErrorException();
+                            res.status(exception.code).json(exception.message);
                             console.error(`Un error!: ${e.message}`);
+
                         }
                         else if(result.rows && result.rows[0]){ 
 
@@ -54,7 +117,7 @@ function UsuarioRepository(data){
 
                         } else {
                             
-                            res.status(404).json( ex.RecordNotFoundException );
+                            res.status(404).json( new ex.RecordNotFoundException() );
 
                         }
 
@@ -63,7 +126,7 @@ function UsuarioRepository(data){
 
             } else {
 
-                throw new ex.Exception(400,'ClientException','Debe indicar el parametro <usuarioid>, y tiene que ser numérico');
+                throw ex.Exception.new(400,'ClientException','Debe indicar el parametro <usuarioid>, y tiene que ser numérico');
 
             }
 
@@ -91,9 +154,11 @@ function UsuarioRepository(data){
                 function (e,result) {
                                             
                     if(e) { //Hay error?
-                        
-                        res.status(ex.DatabaseErrorException.code).json(ex.DatabaseErrorException);
+
+                        var exception = new ex.DatabaseErrorException();
+                        res.status(exception.code).json(exception);
                         console.error(`Un error!: ${e.message}`);
+
                     }
                     else if(result.rows){ //Aquí transformo el resultado a objetos!!
 
@@ -112,7 +177,7 @@ function UsuarioRepository(data){
 
                     } else {
                         
-                        res.status(404).json( ex.RecordNotFoundException );
+                        res.status(404).json( new ex.RecordNotFoundException() );
 
                     }
 
@@ -132,7 +197,7 @@ function UsuarioRepository(data){
 
         try {
 
-            throw nex.MethodNotImplementedException;
+            throw new ex.MethodNotImplementedException();
 
         } catch(e) {
 
@@ -147,7 +212,7 @@ function UsuarioRepository(data){
 
         try {
 
-            throw ex.MethodNotImplementedException;
+            throw new ex.MethodNotImplementedException();
 
         } catch(e) {
 

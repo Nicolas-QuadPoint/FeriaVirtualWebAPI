@@ -9,11 +9,20 @@ class EstadoSubasta extends Entity{
         super();
     }
 
-    buildFromArray(arr = []){
+    clone(obj={},safe=false){
+        
+        if(safe){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
+            this.id_estado_subasta = util.isNullOrUndefined(obj.id_estado_subasta)? 0 : obj.id_estado_subasta;
+            this.descripcion = util.isNullOrUndefined(obj.descripcion)? ' ' : obj.descripcion;
+
+        } else {
+
+            this.id_estado_subasta = obj.id_estado_subasta;
+            this.descripcion = obj.descripcion;
+
         }
+
     }
 
     validate(){

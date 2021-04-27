@@ -9,15 +9,20 @@ class TipoProducto extends Entity{
         super();
     }
 
-    buildFromArray(arr = []){
+    clone(obj={},safe=false){
+        
+        if(safe){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
+            this.id_tipo_producto = util.isNullOrUndefined(obj.id_tipo_producto)? 0 : obj.id_tipo_producto;
+            this.descripcion = util.isNullOrUndefined(obj.descripcion)? ' ' : obj.descripcion;
+
+        } else {
+
+            this.id_tipo_producto = obj.id_tipo_producto;
+            this.descripcion = obj.descripcion;
+
         }
-    }
 
-    validate(){
-        return true;
     }
 
 }

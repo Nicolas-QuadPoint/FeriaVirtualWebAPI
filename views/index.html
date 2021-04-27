@@ -161,10 +161,10 @@
                             <select id="cmbMetodoApi" onchange="cmbMetodoApiValueChanged(this);">
                                 <option data-httpmode="GET" value="nada">Selecciona un método...</option>
                                 <option data-httpmode="GET" value="usuarios">Obtener (GET) todos los usuarios (/usuarios)</option>
+                                <option data-httpmode="POST" value="usuarios/nuevo">Crear un nuevo usuario (/usuarios/nuevo)</option>
                                 <option data-httpmode="GET" data-paramquery=":idusuario" value="usuario/:idusuario">Obtener (GET) un usuario (/usuario/:idusuario)</option>
                                 <option data-httpmode="GET" value="productos">Obtener (GET) todos los productos (/productos)</option>
                                 <option data-httpmode="POST" value="auth/login">Enviar (POST) credenciales de acceso (/auth/login)</option>
-                                <option data-httpmode="POST" value="usuarios/nuevo-productor">Crear un nuevo usuario productor (/usuarios/nuevo-productor)</option>
                             </select>
                         <td>
                             <a id="lblEnlacePeticion" href="#">El enlace final aparecerá aquí!</a>
@@ -181,10 +181,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <textarea id="taPeticion" rows="15" style="width: 100%;height: max-content;resize: none;"></textarea>
+                            <textarea id="taPeticion" rows="15" style="width: 100%;min-height: 200px;height: max-content;resize: none;"></textarea>
                         </td>
                         <td>
-                            <textarea id="taRespuesta" rows="15"  style="width: 100%;height: max-content;resize: none;"></textarea>
+                            <textarea id="taRespuesta" rows="15"  style="width: 100%;min-height: 200px; height: max-content;resize: none;"></textarea>
                         </td>
                     </tr>
                     <tr>

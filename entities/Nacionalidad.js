@@ -1,11 +1,12 @@
 import Entity from './Entity.js';
+import util from '../utilities/utilities.js';
 
 class Nacionalidad extends Entity{
 
     id_nacionalidad = 0;
-    iso = 'cl';
-    nombre = 'Chile';
-    codigo_telefonico = 56;
+    iso = 'xx';
+    nombre = 'None';
+    codigo_telefonico = '0';
 
     constructor(){
         super();
@@ -18,8 +19,27 @@ class Nacionalidad extends Entity{
         }
     }
 
+    clone(obj={},safe=false){
+
+        if(safe){
+
+            this.id_nacionalidad = util.isNullOrUndefined(obj.id_nacionalidad)? 0 : obj.id_nacionalidad;
+            this.nombre = util.isNullOrUndefined(obj.nombre)? ' ' : obj.nombre;
+            this.iso = util.isNullOrUndefined(obj.iso)? ' ' : obj.iso;
+            this.codigo_telefonico = util.isNullOrUndefined(obj.codigo_telefonico)? ' ' : obj.codigo_telefonico;
+
+        } else {
+
+            this.id_nacionalidad = obj.id_nacionalidad;
+            this.nombre = obj.nombre;
+            this.iso = obj.iso;
+            this.codigo_telefonico = obj.codigo_telefonico;
+
+        }
+    }
+
     validate(){
-        return false;
+        return true;
     }
 
 }

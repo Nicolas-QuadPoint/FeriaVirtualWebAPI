@@ -13,15 +13,30 @@ class Producto extends Entity{
         super();
     }
 
-    buildFromArray(arr = []){
+    clone(obj={},safe=false){
+        
+        if(safe){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
+            this.id_producto = util.isNullOrUndefined(obj.id_producto)? 0 : obj.id_producto;
+            this.nombre = util.isNullOrUndefined(obj.nombre)? ' ' : obj.nombre;
+            this.volumen = util.isNullOrUndefined(obj.cantidad)? 0.0 : obj.cantidad;
+
+            this.tipo_producto.clone(obj.tipo_producto,true);
+
+            this.costo_mantencion = util.isNullOrUndefined(obj.costo_mantencion)? 0.0 : obj.costo_mantencion;
+
+        } else {
+
+            this.id_producto = obj.id_producto;
+            this.nombre = obj.nombre;
+            this.volumen = obj.cantidad;
+
+            this.tipo_producto.clone(obj.tipo_producto,false);
+
+            this.costo_mantencion = obj.costo_mantencion;
+
         }
-    }
 
-    validate(){
-        return false;
     }
 
 }

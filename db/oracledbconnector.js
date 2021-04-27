@@ -11,8 +11,9 @@ if(dotenv.error){
     throw dotenv.error;
 }
 
-//Con esto, los resultados serán mostrados como JSON
-Ora.outFormat = Ora.OUT_FORMAT_OBJECT;
+//Con esto, los resultados serán mostrados como Arrays.
+//Si quieres objetos JSON, entonces pon OUT_FORMAT_OBJECT
+Ora.outFormat = Ora.OUT_FORMAT_ARRAY;
 
 // Create connection to database
 const oraconfig = {
