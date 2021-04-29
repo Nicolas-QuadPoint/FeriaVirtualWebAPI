@@ -14,9 +14,11 @@ class Nacionalidad extends Entity{
 
     buildFromArray(arr = []){
 
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
-        }
+        this.id_nacionalidad = arr[0];
+        this.iso = arr[2];
+        this.nombre = arr[1];
+        this.codigo_telefonico = arr[3];
+        
     }
 
     clone(obj={},safe=false){

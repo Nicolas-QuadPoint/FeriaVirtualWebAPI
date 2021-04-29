@@ -1,5 +1,6 @@
 import Entity from './Entity.js';
 import TipoProducto from './TipoProducto.js';
+import util from '../utilities/utilities.js';
 
 class Producto extends Entity{
 
@@ -36,6 +37,20 @@ class Producto extends Entity{
             this.costo_mantencion = obj.costo_mantencion;
 
         }
+
+    }
+
+    validate(){
+
+        return (
+
+            ( !util.isNullOrUndefined(this.nombre) ) &&
+            ( !util.isNullOrUndefined(this.nombre) && util.isNameValid(this.nombre) ) &&
+            ( !util.isNullOrUndefined(this.volumen) && this.volumen > 0.0 ) &&
+            ( !util.isNullOrUndefined(this.costo_mantencion) && this.costo_mantencion > 0.0 ) &&
+            ( !util.isNullOrUndefined(this.tipo_producto) && this.tipo_producto.validate() )
+
+        );
 
     }
 

@@ -1,5 +1,6 @@
 import ConexionBD from '../../db/oracledbconnector.js';
 import ex from '../../info/exceptions/exceptions.js';
+import Producto from '../../entities/Producto.js';
 
 
 function ProductoRepository(datos){
@@ -93,7 +94,55 @@ function ProductoRepository(datos){
     }
     
     function nuevoProducto(req,res){
-        res.status(500).json( new ex.MethodNotImplementedException() );
+
+        try{
+
+            var p = new Producto();
+            var succ = 0;
+            p.clone(req.body);
+
+            var parametros = {
+                p_nombre:{ name:'p_nombre', type: ConexionBD.dbTypes.VARCHAR, val:p.nombre, dir: ConexionBD.dbTypes.IN },
+                p_volumen:{ name:'p_volumen', type: ConexionBD.dbTypes.INT, val:p.volumen, dir: ConexionBD.dbTypes.IN },
+                p_tipo_producto:{ name:'p_tipo_producto', type: ConexionBD.dbTypes.INT, val:p.tipo_producto.id_tipo_producto, dir: ConexionBD.dbTypes.IN },
+                p_costo_mantencion:{ name:'p_costo_mantencion', type: ConexionBD.dbTypes.INT, val:p.costo_mantencion, dir: ConexionBD.dbTypes.IN },
+                exito:{ name:'exito', type: ConexionBD.dbTypes.INT, val:succ, dir: ConexionBD.dbTypes.INOUT }
+            };
+
+            if(p.validate()){
+
+                bd.executeStoredProcedure(`pkg_producto.proc_crear_producto`,parametros,{},
+                    function(error,results){
+
+                        if(error){
+                            
+                            console.error(`Paso algo! ${error}`);
+                            res.status(500).json( new ex.DatabaseErrorException() );
+
+                        } else if (results && results.outBinds){
+                            
+                            res.status(200).json( { id:results.outBinds.exito } );
+
+                        } else {
+
+                            res.status(500).json( new ex.DatabaseErrorException() );
+
+                        }
+
+                    }
+                );
+
+            } else {
+
+                res.status(400).json( new ex.InvalidArgumentException() );
+
+            }
+
+        } catch(e) {
+
+            res.status(500).json( new ex.APIException() );
+        }
+
     }
     
     

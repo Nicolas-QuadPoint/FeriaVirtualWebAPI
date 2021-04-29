@@ -53,14 +53,14 @@ function oraSimpleQueryRequestHandler(qry,params,arr,obj,callback){
     
     var bd = new ora();
 
-    bd.executeQuery(qry,params,{},
+    bd.executeQuery(qry,params,{ },
         function(error,results){
 
             if(error){
                 console.error(`Pasó algo!: ${error}`);
+            } else {
+                callback(error,oraBuildGenericResultSetToEntity(arr,obj,results));
             }
-
-            callback(error, !error && oraBuildGenericResultSetToEntity(arr,obj,results));
         }
     );
 }

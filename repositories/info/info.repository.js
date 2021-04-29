@@ -19,7 +19,11 @@ function InfoRepository(conexion){
                 qry,{},
                 resultados,tipo,function(error,success){
 
-                    if(success){
+                    if(error){
+                        console.error(`Algo paso!!: ${error}`);
+                        res.status(500).json(new ex.DatabaseErrorException());
+                    }
+                    else if(success){
 
                         var respuesta = {};
 
