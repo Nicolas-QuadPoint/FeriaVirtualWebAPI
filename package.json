@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API Web para utlizarse en la aplicacion FeriaVirtualMóvil y FeriaVirtualWeb,\r  escrito para Node.JS.",
   "main": "app.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -11,8 +11,10 @@
   "author": "Nicolas_QuadPoint",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "oracledb": "^5.1.0",
     "requirejs": "^2.3.6",

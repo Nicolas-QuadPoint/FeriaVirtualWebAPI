@@ -55,12 +55,7 @@ function oraSimpleQueryRequestHandler(qry,params,arr,obj,callback){
 
     bd.executeQuery(qry,params,{ },
         function(error,results){
-
-            if(error){
-                console.error(`Pasó algo!: ${error}`);
-            } else {
-                callback(error,oraBuildGenericResultSetToEntity(arr,obj,results));
-            }
+            callback(error,oraBuildGenericResultSetToEntity(arr,obj,results));
         }
     );
 }

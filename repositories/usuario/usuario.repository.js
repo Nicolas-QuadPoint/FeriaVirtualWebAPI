@@ -87,6 +87,8 @@ function UsuarioRepository(data){
     
     function interceptarUsuarioPorID(req,res,next){
 
+        console.log('Pasando por middleware interceptarUsuario!!');
+
         try {
 
             var bd = new ConexionBD();
@@ -113,7 +115,7 @@ function UsuarioRepository(data){
                         else if(result.rows && result.rows[0]){ 
 
                             req.data = result.rows[0];
-                            return next();
+                            next();
 
                         } else {
                             

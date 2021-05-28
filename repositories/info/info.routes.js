@@ -4,34 +4,34 @@ export default function(objetoRouter){
 
     const infoRepository = _infoRepository();
 
-    objetoRouter.route('/info/api-objects/:objectid')
+    objetoRouter.route('/api-objects/:objectid')
         .get(infoRepository.getAPIObjects);
     
-    objetoRouter.route('/info/estados-contrato')
+    objetoRouter.route('/estados-contrato')
         .get(infoRepository.getEstadosContrato);
     
-    objetoRouter.route('/info/estados-usuario')
+    objetoRouter.route('/estados-usuario')
         .get(infoRepository.getEstadosUsuario);
 
-    objetoRouter.route('/info/estados-venta')
+    objetoRouter.route('/estados-venta')
         .get(infoRepository.getEstadosVenta);
 
-    objetoRouter.route('/info/estados-subasta')
+    objetoRouter.route('/estados-subasta')
         .get(infoRepository.getEstadosSubasta);
 
-    objetoRouter.route('/info/tipos-venta')
+    objetoRouter.route('/tipos-venta')
         .get(infoRepository.getTiposVenta);
 
-    objetoRouter.route('/info/tipos-subasta')
+    objetoRouter.route('/tipos-subasta')
         .get(infoRepository.getTiposSubasta);
 
-    objetoRouter.route('/info/tipos-producto')
+    objetoRouter.route('/tipos-producto')
         .get(infoRepository.getTiposProducto);
     
-    objetoRouter.route('/info/roles-usuario')
+    objetoRouter.route('/roles-usuario')
         .get(infoRepository.getRolesUsuario);
 
-    objetoRouter.route('/info/nacionalidades')
+    objetoRouter.route('/nacionalidades')
         .get(infoRepository.getNacionalidades);
     
 }

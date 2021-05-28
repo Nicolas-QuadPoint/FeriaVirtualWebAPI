@@ -4,10 +4,10 @@ export default function(objetoRouter){
 
     const authRepository = _authRepository();
 
-    objetoRouter.route('/auth/login')
+    objetoRouter.route('/login')
         .post(authRepository.login);
     
-    objetoRouter.route('/auth/logout')
+    objetoRouter.route('/logout')
         .post(authRepository.logout);
 
 }

@@ -53,6 +53,17 @@ export class InvalidArgumentException extends Exception {
     }
 }
 
+export class InvalidTokenException extends Exception {
+    
+    code = 401;
+    name = "InvalidTokenException";
+    message = "Header of http request has not a valid token, or is inexistent";
+
+    constructor(){
+        super();
+    }
+}
+
 export class DatabaseErrorException extends Exception{
     
     code = 500; 
@@ -116,6 +127,7 @@ export default {
     InvalidArgumentException,
     DatabaseErrorException,
     InvalidAccessException,
+    InvalidTokenException,
     MethodGoneException,
     MethodNotImplementedException,
     APIException

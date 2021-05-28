@@ -20,7 +20,7 @@ function InfoRepository(conexion){
                 resultados,tipo,function(error,success){
 
                     if(error){
-                        console.error(`Algo paso!!: ${error}`);
+                        console.error(`Algo paso en simpleRequestManager!!: ${error}`);
                         res.status(500).json(new ex.DatabaseErrorException());
                     }
                     else if(success){
@@ -40,7 +40,7 @@ function InfoRepository(conexion){
 
         } catch(e) {
             res.status(500).json(new ex.APIException());
-            console.error(`Pasó algo!: ${e}`);
+            console.error(`Algo paso en simpleRequestManager!!: ${e}`);
         }
         
     }
@@ -68,6 +68,8 @@ function InfoRepository(conexion){
             
         } catch(e) {
 
+            console.error(`Paso algo!: ${e}`);
+
             if(e instanceof TypeError){
 
                 res.status(404).json( new ex.RecordNotFoundException() );
@@ -77,8 +79,6 @@ function InfoRepository(conexion){
                 res.status(500).json( new ex.APIException() );
                 
             }
-
-            console.error(`Pasó algo!: ${e}`);
 
         }
 

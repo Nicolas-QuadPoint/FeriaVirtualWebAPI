@@ -1,4 +1,5 @@
 import _productoRepository from './producto.repository.js';
+import AuthAutenticationService from '../auth/auth.autentication.service.js';
 
 export default function(objetoRouter){
 
