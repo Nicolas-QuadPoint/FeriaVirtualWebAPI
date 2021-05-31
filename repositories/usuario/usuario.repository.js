@@ -1,7 +1,9 @@
 import ConexionBD from '../../db/oracledbconnector.js';
 import Ora from 'oracledb';
-import ex from '../../info/exceptions/exceptions.js';
+import ex, { InvalidArgumentException } from '../../info/exceptions/exceptions.js';
 import Usuario from '../../entities/Usuario.js';
+import ResultadoID from '../../entities/ResultadoID.js';
+import ObjetoCambiarContrasena from '../../entities/ObjetoCambiarContrasena.js';
 
 function UsuarioRepository(data){
 
@@ -53,7 +55,10 @@ function UsuarioRepository(data){
 
                         } else if (results && results.outBinds){
                             
-                            res.status(200).json( { id:results.outBinds.exito } );
+                            var resultadoid = new ResultadoID();
+                            resultadoid.id_resultado = results.outBinds.exito;
+
+                            res.status(200).json( resultadoid );
 
                         } else {
 
@@ -95,6 +100,8 @@ function UsuarioRepository(data){
             var usuarioid = Number(req.params.usuarioid);;
 
             if(req.params.usuarioid && !isNaN(usuarioid)){
+
+                console.log('[GetUsuarioID]: ',usuarioid);
                 
                 var parametros = {
                     
@@ -114,7 +121,10 @@ function UsuarioRepository(data){
                         }
                         else if(result.rows && result.rows[0]){ 
 
-                            req.data = result.rows[0];
+                            var u = new Usuario();
+                            u.buildFromArray(result.rows[0]);
+                            req.data = { usuario : u };
+                            console.log(req.data);
                             next();
 
                         } else {
@@ -162,7 +172,7 @@ function UsuarioRepository(data){
                         console.error(`Un error!: ${e.message}`);
 
                     }
-                    else if(result.rows){ //Aquí transformo el resultado a objetos!!
+                    else if(result && result.rows){ //Aquí transformo el resultado a objetos!!
 
                         var arr_usuarios = [];
                         result.rows.forEach(function(value,index,array){
@@ -210,6 +220,65 @@ function UsuarioRepository(data){
 
     }
 
+    function cambiarContrasenaUsuario(req,res){
+
+        try {
+            
+            var bd = new ConexionBD();
+            var objCambiarContrasena = new ObjetoCambiarContrasena();
+            var p_exito = 0;
+
+            objCambiarContrasena.clone(req.body,true);
+
+            if(!objCambiarContrasena.validate()){
+                throw new InvalidArgumentException();
+            }
+
+            console.log(objCambiarContrasena);
+
+            var parametros = {
+                p_usuario_id :{ name:'p_usuario_id', type: ConexionBD.dbTypes.INT, val: objCambiarContrasena.id_usuario, dir: ConexionBD.dbTypes.IN },
+                p_contrasena :{ name:'p_contrasena', type: ConexionBD.dbTypes.VARCHAR, val: objCambiarContrasena.nueva_contrasena, dir: ConexionBD.dbTypes.IN },
+                exito :{ name:'exito', type: ConexionBD.dbTypes.INT, val: p_exito, dir: ConexionBD.dbTypes.INOUT }
+            };
+
+            bd.executeStoredProcedure('pkg_usuario.proc_cambiar_contrasena_usuario', parametros,
+                { outFormat : Ora.OUT_FORMAT_ARRAY },
+
+                function (e,result) {
+                                            
+                    if(e) { //Hay error?
+
+                        var exception = new ex.DatabaseErrorException();
+                        res.status(exception.code).json(exception);
+                        console.error(`Un error!: ${e.message}`);
+
+                    }
+                    else if(result && result.outBinds){
+
+                        var resultadoid = new ResultadoID();
+                        resultadoid.id_resultado = result.outBinds.exito;
+
+                        res.status(200).json( resultadoid );
+                        
+
+                    } else {
+                        
+                        res.status(404).json( new ex.OperationFailedException() );
+
+                    }
+
+                }    
+            );
+
+        } catch(e) {
+            console.log(e);
+            res.status(401).json( e );
+
+        }
+
+    }
+
     function deshabilitarUsuario(req,res){
 
         try {
@@ -234,6 +303,7 @@ function UsuarioRepository(data){
         getUsuarios,
         //Funciones POST
         nuevoUsuario,
+        cambiarContrasenaUsuario,
         //Funciones PUT
         modificarUsuario,
         //Funciones DELETE

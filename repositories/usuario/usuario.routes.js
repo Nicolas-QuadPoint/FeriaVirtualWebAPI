@@ -22,4 +22,7 @@ export default function(objetoRouter){
         .put(usuarioRepository.modificarUsuario)
         .delete(usuarioRepository.deshabilitarUsuario);
 
+    objetoRouter.route('/usuario/:usuarioid/changepassword')
+        .post(usuarioRepository.cambiarContrasenaUsuario);
+
 }

@@ -16,6 +16,6 @@ export default function(objetoRouter){
         .put(ventasRepository.updateVenta);
 
     objetoRouter.route('/ventas/usuario/:usuarioid')
-        .get(ventasRepository.getVentasPorUsuario)
+        .get(ventasRepository.getVentasPorUsuario);
 
 }

@@ -42,6 +42,8 @@ app.use('/api/v1/info',infoRoutes);
 app.use('/api/v1/auth',authRoutes);
 
 //Maneja el control de acceso para la api privada!
+//Excluye a las rutas anteriores info y auth!
+//https://stackoverflow.com/a/2078953
 app.all(/^\/api\/v1\/(?!info|auth).{1,}$/, AuthAutenticationService.checkAutenticatedToken);
 
 //Private API Routes

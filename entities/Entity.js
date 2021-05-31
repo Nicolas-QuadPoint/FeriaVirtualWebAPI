@@ -22,7 +22,7 @@ class Entity {
     }
 
     clone(obj = {},safe=false){
-        
+        //Do nothing
     }
 
     validate(){

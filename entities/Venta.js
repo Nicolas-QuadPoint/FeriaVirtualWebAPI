@@ -12,8 +12,8 @@ class Venta extends Entity{
     comentarios_venta = 'Comentarios.';
     monto_total = 0;
     comision = 0.0;
-    usuario_autor = new Usuario();
     estado_venta = new EstadoVenta();
+    usuario_autor = new Usuario();
     tipo_venta = new TipoVenta();
     productos_venta = [
         new ParProductoCantidad(),

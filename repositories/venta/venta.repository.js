@@ -2,6 +2,8 @@ import ConexionBD from '../../db/oracledbconnector.js';
 import utility from '../../utilities/utilities.js';
 import genericResponse from '../../shared/response.js';
 import ex from '../../info/exceptions/exceptions.js';
+import ObjetoVentaSimple from '../../entities/ObjetoVentaSimple.js';
+import Ora from 'oracledb';
 
 /* Definicion de clase */
 function VentasRepository(datos){
@@ -128,17 +130,28 @@ function VentasRepository(datos){
             
             var conn = new ConexionBD();
 
-            conn.executeQuery("select * from table ( pkg_venta.func_get_all_ventas() )",{},{},
-            function(e,results){
+            conn.executeQuery('select * from table (pkg_venta.func_get_all_ventas_simple() )',{}, 
+            { outFormat : Ora.OUT_FORMAT_ARRAY },
+            function(e,result){
                 
                 if(e){
 
                     res.status(500).json( new ex.DatabaseErrorException() );
                     console.error(`Un error!: ${e.message}`);
 
-                } else if(results && results.rows[0]) {
+                } else if(result && result.rows) {
+                    
+                    var arr_ventas = [];
+                    result.rows.forEach(function(value,index,array){
+                        
+                        var itemVentaSimple = new ObjetoVentaSimple();
+                        itemVentaSimple.buildFromArray(result.rows[index]);
+                        arr_ventas.push(itemVentaSimple);
 
-                    res.status(200).json( { ventas : results.rows } );
+                    });
+
+                    
+                    res.status(200).json( { ventas : arr_ventas } );
 
                 } else {
 
@@ -151,6 +164,7 @@ function VentasRepository(datos){
         } catch(e) {
 
             res.status(500).json( e );
+            console.error(e);
 
         }
 

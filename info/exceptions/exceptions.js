@@ -108,6 +108,17 @@ export class InvalidAccessException extends Exception {
     }
 }
 
+export class OperationFailedException extends Exception {
+    
+    code = 500;
+    name = "OperationFailedException";
+    message = "The operation has failed due a unknown reason";
+
+    constructor(){
+        super();
+    }
+}
+
 export class MethodGoneException extends Exception{
 
     code = 410;
@@ -127,6 +138,7 @@ export default {
     InvalidArgumentException,
     DatabaseErrorException,
     InvalidAccessException,
+    OperationFailedException,
     InvalidTokenException,
     MethodGoneException,
     MethodNotImplementedException,
