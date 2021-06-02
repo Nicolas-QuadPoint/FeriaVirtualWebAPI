@@ -3,7 +3,9 @@ import utility from '../../utilities/utilities.js';
 import genericResponse from '../../shared/response.js';
 import ex from '../../info/exceptions/exceptions.js';
 import ObjetoVentaSimple from '../../entities/ObjetoVentaSimple.js';
+import Venta from '../../entities/Venta.js';
 import Ora from 'oracledb';
+import ParProductoCantidad from '../../entities/ParProductoCantidad.js';
 
 /* Definicion de clase */
 function VentasRepository(datos){
@@ -28,20 +30,24 @@ function VentasRepository(datos){
     }
 
     function getVenta(req,res){
-        
+       
         try {
 
             var venta_id = Number(req.params.ventaid);
 
-            if(req.params.ventaid && !isNaN(venta_id)){
+            if(req.params.ventaid && !isNaN(venta_id)){ /*if(true){*/
 
                 var conn = new ConexionBD();
 
+                //'tobj_descripcion_producto_venta'
                 var parametros = {
-                    ventaid:{ name:'ventaid', type: ConexionBD.dbTypes.INT, val: venta_id, dir: ConexionBD.dbTypes.IN }
+                    p_id_venta:{ name:'p_id_venta', type: ConexionBD.dbTypes.INT, val: venta_id, dir: ConexionBD.dbTypes.IN },
+                    p_info_venta:{ name:'p_info_venta', type: Ora.DB_TYPE_CURSOR, dir: ConexionBD.dbTypes.OUT },
+                    p_lista_productos_venta:{ name:'p_lista_productos_venta', type: Ora.DB_TYPE_CURSOR, dir: ConexionBD.dbTypes.OUT }
                 };
 
-                conn.executeQuery("select * from table ( pkg_venta.func_get_venta(:ventaid) )",parametros,{},
+                conn.executeStoredProcedure("pkg_venta.proc_get_info_venta",
+                parametros,{},
                 function(e,results){
                     
                     if(e){
@@ -49,9 +55,65 @@ function VentasRepository(datos){
                         res.status(500).json( new ex.DatabaseErrorException() );
                         console.error(`Un error!: ${e.message}`);
 
-                    } else if(results && results.rows[0]) {
+                    } else if(results && results.outBinds) {
 
-                        res.status(200).json( { ventas : results.rows } );
+                        //Recuperamos los cursores!
+                        var cursor_info_venta = results.outBinds.p_info_venta;
+                        var cursor_productos_venta = results.outBinds.p_lista_productos_venta;
+                        
+                        //Este cursor SIEMPRE tendrá una fila!
+                        cursor_info_venta.getRows(1,function(err,fila_venta){
+                            
+                            if(fila_venta && fila_venta[0]){
+
+                                /**
+                                 * Aquí vemos si podemos ver mas filas de productos!
+                                 * Como no se cuantas filas hay para recuperar, mejor 
+                                 * recupero todas de un zarpaso! El valor de esta funcion 
+                                 * es estimada y por nada del mundo sera sobrepasada!!!
+                                 */
+                                cursor_productos_venta.getRows(65535,function(err,filas_productos){
+
+                                    if(filas_productos){
+                                        //console.log(filas_productos);
+                                        
+                                        /**
+                                         * Aquí construyo el objeto de Ventas!!!
+                                         */
+                                        let objetoVenta = new Venta();
+                                        console.log(fila_venta);
+                                        objetoVenta.buildFromArray(fila_venta[0]);
+
+                                        filas_productos.forEach( producto => {
+                                            let nuevoParProductoCantidad = new ParProductoCantidad();
+                                            nuevoParProductoCantidad.buildFromArray(producto);
+                                            objetoVenta.productos_venta.push(nuevoParProductoCantidad);
+                                        });
+
+                                        res.status(200).json(objetoVenta);
+
+                                    } else {
+
+                                        if(err){console.log(err);}
+                                        res.status(404).json(new ex.RecordNotFoundException());
+
+                                    }
+
+                                    /** Cerramos el cursor cursor_productos_venta */
+                                    cursor_productos_venta.close(function(err){});
+
+                                });
+
+                            } else {
+
+                                if(err){console.log(err);}
+                                res.status(404).json(new ex.RecordNotFoundException());
+
+                            }
+
+                            /** Cerramos el cursor cursor_info_venta */
+                            cursor_info_venta.close(function(err){});
+                        });
 
                     } else {
 

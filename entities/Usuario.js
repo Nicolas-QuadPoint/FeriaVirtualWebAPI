@@ -5,6 +5,7 @@ import Nacionalidad from './Nacionalidad.js';
 import Rol from './Rol.js';
 
 import util from '../utilities/utilities.js';
+import ContratoUsuario from './ContratoUsuario.js';
 
 class Usuario extends Entity{
 
@@ -23,7 +24,7 @@ class Usuario extends Entity{
     nacionalidad = new Nacionalidad();
     rol = new Rol();
     estado_usuario = new EstadoUsuario();
-    estado_contrato = new EstadoContrato();
+    contrato_usuario = new ContratoUsuario();
 
     constructor(){
         super();
@@ -41,20 +42,34 @@ class Usuario extends Entity{
         this.telefono = arr[7];
         this.direccion = arr[8];
         this.email  = arr[9];
+        
         //Por temas de seguridad, estos valores deben ser
         //instanciados manualmente
         //this.contrasena  = arr[10];
         //this.salt_contrasena = arr[11];
+
+        this.nacionalidad = new Nacionalidad();
         this.nacionalidad.id_nacionalidad = arr[10];
         this.nacionalidad.nombre = arr[11];
         this.nacionalidad.iso = arr[12];
         this.nacionalidad.codigo_telefonico = arr[13];
+        
+        this.rol = new Rol();
         this.rol.id_rol = arr[14];
         this.rol.descripcion = arr[15];
+
+        this.estado_usuario = new EstadoUsuario();
         this.estado_usuario.id_estado_usuario = arr[16];
         this.estado_usuario.descripcion = arr[17];
-        this.estado_contrato.id_estado_contrato = arr[18];
-        this.estado_contrato.descripcion = arr[19];
+        
+        this.contrato_usuario = new ContratoUsuario();
+        this.contrato_usuario.id_contrato_usuario = arr[18];
+        this.contrato_usuario.fecha_inicio_contrato = Date.parse(arr[19]).toString();
+        this.contrato_usuario.fecha_termino_contrato = Date.parse(arr[20]).toString();
+
+        this.contrato_usuario.estado_contrato = new EstadoContrato();
+        this.contrato_usuario.estado_contrato.id_estado_contrato = arr[21];
+        this.contrato_usuario.estado_contrato.descripcion = arr[22];
 
     }
 
@@ -78,7 +93,7 @@ class Usuario extends Entity{
             this.nacionalidad.clone(obj.nacionalidad,true);
             this.rol.clone(obj.rol,true);
             this.estado_usuario.clone(obj.estado_usuario,true);
-            this.estado_contrato.clone(obj.estado_contrato,true);
+            this.contrato_usuario.clone(obj.contrato_usuario,true);
 
         } else {
 
@@ -98,7 +113,7 @@ class Usuario extends Entity{
             this.nacionalidad.clone(obj.nacionalidad,false);
             this.rol.clone(obj.rol,false);
             this.estado_usuario.clone(obj.estado_usuario,false);
-            this.estado_contrato.clone(obj.estado_contrato,false);
+            this.contrato_usuario.clone(obj.contrato_usuario,false);
         }
 
     }
@@ -121,7 +136,7 @@ class Usuario extends Entity{
             ( this.nacionalidad.validate() ) &&
             ( this.rol.validate() ) &&
             ( this.estado_usuario.validate() ) &&
-            ( this.estado_contrato.validate() )
+            ( this.contrato_usuario.validate() )
 
 
         );

@@ -64,7 +64,7 @@ function AuthRepository(conexion){
 
                         } else if(result){
 
-                            //console.log(result);
+                            console.log(result);
 
                             if(result.rows[0]){
                             
@@ -72,7 +72,7 @@ function AuthRepository(conexion){
                                 u.buildFromArray(result.rows[0]);
 
                                 var tokenUsuario = JWT.sign({id:u.id_usuario},process.env.WEBTOKEN_SECRET_KEY,{expiresIn:84600});
-
+                                console.log({ token_usuario: tokenUsuario, usuario : u });
                                 res.status(200).json( { token_usuario: tokenUsuario, usuario : u });
 
                             } else {

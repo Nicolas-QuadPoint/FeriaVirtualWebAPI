@@ -1,5 +1,6 @@
 import Entity from './Entity.js';
 import Producto from './Producto.js';
+import TipoProducto from './TipoProducto.js';
 
 class ParProductoCantidad extends Entity{
 
@@ -23,6 +24,22 @@ class ParProductoCantidad extends Entity{
             this.cantidad = obj.cantidad;
 
         }
+
+    }
+
+    buildFromArray(arr = []){
+
+        this.producto = new Producto();
+
+        this.producto.id_producto = arr[0];
+        this.producto.nombre = arr[1];
+        this.producto.volumen = arr[2];
+        this.producto.costo_mantencion = arr[3];
+        this.producto.valor_mercado = arr[4];
+        this.producto.tipo_producto = new TipoProducto();
+        this.producto.tipo_producto.id_tipo_producto = arr[5];
+        this.producto.tipo_producto.descripcion = arr[6];
+        this.cantidad = arr[7];
 
     }
 
