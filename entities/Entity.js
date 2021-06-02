@@ -15,10 +15,7 @@ class Entity {
     }
 
     buildFromArray(arr = []){
-
-        for(var i = 0; i < arr.length; i++){
-            //Do nothing
-        }
+        //Do nothing
     }
 
     clone(obj = {},safe=false){

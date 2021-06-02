@@ -7,8 +7,10 @@ class Producto extends Entity{
     id_producto = 0;
     nombre = 'ninguno';
     volumen = 0.0;
-    tipo_producto = new TipoProducto();
     costo_mantencion = 0.0;
+    valor_mercado = 0;
+    tipo_producto = new TipoProducto();
+    
 
     constructor(){
         super();
@@ -38,6 +40,18 @@ class Producto extends Entity{
 
         }
 
+    }
+
+    buildFromArray(arr = []){
+
+        this.id_producto = arr[0];
+        this.nombre = arr[1];
+        this.volumen = arr[2];
+        this.costo_mantencion = arr[3];
+        this.valor_mercado = arr[4];
+        this.tipo_producto = new TipoProducto();
+        this.tipo_producto.id_tipo_producto = arr[5];
+        this.tipo_producto.descripcion = arr[6];
     }
 
     validate(){

@@ -15,27 +15,32 @@ function ProductoRepository(datos){
         
         try {
 
-            if(req.query.productoid){
+            console.log(req);
+
+            if(req.params.productoid){
                 
+                var idProd = Number(req.params.productoid);
                 var conn = new ConexionBD();
                 var parametros = {
 
-                    productoid : { name:'productoid', type: ConexionBD.dbTypes.INT, val: req.query.productoid, dir: ConexionBD.dbTypes.IN }
+                    productoid : { name:'productoid', type: ConexionBD.dbTypes.INT, val: idProd, dir: ConexionBD.dbTypes.IN }
 
                 };
                 
                 conn.executeQuery("select * from table( pkg_producto.func_get_producto( :productoid ) )",
                     parametros,{},
-                    function(e,results){
+                    function(e,result){
                         
                         if(e){
                             
                             res.status(404).json(new ex.RecordNotFoundException());
                             console.error(`Un e!:${e.message}`);
 
-                        } else {
-
-                            res.status(200).json(  results.rows[0]  );
+                        } else if(result && result.rows[0]) {
+                            
+                            var p = new Producto();
+                            p.buildFromArray(result.rows[0]);
+                            res.status(200).json({ producto : p });
 
                         }
 
