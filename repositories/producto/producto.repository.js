@@ -3,19 +3,53 @@ import ex from '../../info/exceptions/exceptions.js';
 import Producto from '../../entities/Producto.js';
 
 
-function ProductoRepository(datos){
+/**
+ * ProductoRepository
+ * 
+ * Contiene las operaciones para obtener, modificar y 
+ * crear productos en la base de datos.
+ * 
+ * @param {Object} conexion Objeto sin usar que no debe tomarse 
+ * en cuenta por ahora.
+ * @return Una instancia de la clase ProductoRepository
+ */
+function ProductoRepository(conexion){
 
+    /**
+     * Funcion interceptor que capta toda petición que incluya 
+     * la ruta productos/:productoid en su ruta. Por ahora 
+     * no hace mucho, así que puede que sea removida en un 
+     * futuro. 
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * obtener datos de la petición.
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición.
+     * @param {Function} next Funcion que permite continuar con la 
+     * petición. 
+     * @return Un objeto entregado por express
+     */
     function interceptarProductoPorID(req,res,next){
     
         return next();
     
     }
 
+    /**
+     * 
+     * Obtiene un objeto Producto de la base de datos, y la 
+     * devuelve al usuario en forma de objeto JSON. Si sucede algo, 
+     * retorna un objeto Exception y el código de respuesta http 
+     * variará dependiendo del error generado. 
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * obtener datos de la petición.
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición.
+     */
     function getProducto(req,res){
         
         try {
-
-            console.log(req);
 
             if(req.params.productoid){
                 
@@ -34,7 +68,7 @@ function ProductoRepository(datos){
                         if(e){
                             
                             res.status(404).json(new ex.RecordNotFoundException());
-                            console.error(`Un e!:${e.message}`);
+                            console.error(`Un error en getProducto!:${e.message}`);
 
                         } else if(result && result.rows[0]) {
                             
@@ -61,6 +95,17 @@ function ProductoRepository(datos){
         }
     }
     
+    /**
+     * 
+     * Obtiene la lista de productos de la base de datos, entregando 
+     * como resultado un array de objetos JSON al cliente, o un 
+     * objeto Exception en caso de error. 
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * obtener datos de la petición.
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición.
+     */
     function getProductos(req,res){
         
         try {
@@ -98,6 +143,23 @@ function ProductoRepository(datos){
     
     }
     
+    /**
+     * Permite crear un nuevo objeto Producto y guardarlo en 
+     * la base de datos. 
+     * El cliente debe enviar un objeto Producto con sus datos, 
+     * en forma de objeto JSON en el cuerpo de la petición. 
+     * Esta función lee dichos datos y recrea el objeto para así 
+     * insertarlo en la base de datos. 
+     * 
+     * Si la creación de producto es exitosa, un objeto del tipo 
+     * ResultadoID será devuelto, con el ID del producto insertado, 
+     * o un objeto Exception en caso de error. 
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * obtener datos de la petición.
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición.
+     */
     function nuevoProducto(req,res){
 
         try{
@@ -150,7 +212,16 @@ function ProductoRepository(datos){
 
     }
     
-    
+    /**
+     * 
+     * TODO: Crear la lógica que permita modificar el producto 
+     * en la base de datos! 
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * obtener datos de la petición.
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición.
+     */
     function modificarProducto(req,res){
         res.status(500).json( new ex.MethodNotImplementedException() );
     }

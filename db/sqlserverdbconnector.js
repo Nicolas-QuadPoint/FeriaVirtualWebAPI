@@ -1,20 +1,20 @@
 //Importing modules
-import { config as _config, error } from 'dotenv';
+import { dotenv } from 'dotenv';
 import { Connection } from 'tedious';
 import { Request } from 'tedious';
 import { TYPES } from 'tedious';
 import { sendDbResponse, buildRow, buildOutputParam } from '../utilities/utilities.js';
-import DBConnector from './dbconnector';
+import DBConnector from './dbconnector.js';
 
 //Configuring enviromental values
-_config();
+dotenv.config();
 
 //Check for early errors
-if(error){
-    throw error;
+if(dotenv.error){
+    throw dotenv.error;
 }
 
-// Create connection to database
+// Objeto de conexión para una base de datos SQLSERVER
 // Para conectarme a localhost, debo tener iniciado el servicio sqlserver browser!!!
 const config = {
     authentication: {
@@ -32,6 +32,12 @@ const config = {
     }
 };
 
+/**
+ * SQLServerDBConnector
+ * 
+ * Implementación de DBConnector, orientado a una 
+ * conexión a una base de datos SQLSERVER. 
+ */
 class SQLServerDBConnector extends DBConnector {
 
     static dbTypes = {
@@ -46,7 +52,6 @@ class SQLServerDBConnector extends DBConnector {
     
     };
 
-    //Generate a new connection
     newConnection(callbackToSQL){
 
         var conn = new Connection(config);
@@ -82,12 +87,10 @@ class SQLServerDBConnector extends DBConnector {
         conn.connect();
     }
 
-    //This closes the connection
     closeConnection(){
         this.conn.close();
     }
 
-    //Funcion que ejecuta un 'procedimiento almacenado'
     executeStoredProcedure(spName,params,options,callback){
 
         this.newConnection(

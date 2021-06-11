@@ -79,7 +79,7 @@ export class MethodNotImplementedException extends Exception {
     
     code = 501;
     name = "MethodNotImplementedException";
-    message = "Aún no implementado, mijo";
+    message = "The method requested has not implemented yet";
 
     constructor(){
         super();

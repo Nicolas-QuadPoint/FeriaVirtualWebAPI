@@ -10,7 +10,6 @@ import { DatabaseErrorException,
 /* Para creacion de tokens de autenticacion!!! */
 import DotEnv from 'dotenv';
 import JWT from 'jsonwebtoken';
-import BCrypt from 'bcryptjs';
 
 
 //Configuring enviromental values
@@ -22,9 +21,59 @@ if(DotEnv.error){
 }
 
 
-/* Definicion de clase */
+/**
+ * AuthRepository
+ * 
+ * Clase que maneja las peticiones indicadas en el archivo 
+ * auth.routes.js.
+ * 
+ * Básicamente, hace dos cosas: login y logout.
+ * 
+ * 
+ * @param {Object} conexion Objeto sin usar que correspondería a una conexión 
+ * a la base de datos, pero hasta el momento no es necesario.
+ * @return La instancia de clase AuthRepository
+ */
 function AuthRepository(conexion){
 
+
+    /**
+     * 
+     * Esta funcion permite autenticar al usuario al sistema, 
+     * mediante el envío de credenciales.
+     * Para que esto funcione, el usuario debe enviar una petición
+     * con un objeto json que representan sus credenciales:
+     * 
+     * {
+     *    "email":"ejemplo@email.com", 
+     *    "contrasena":"contrasena" 
+     * }
+     * 
+     * Esta funcion lee los contenidos de este objeto, y realiza 
+     * la autenticación desde la fuente de datos (base de datos), 
+     * y en base a su respuesta, se decantan por dos opciones: 
+     * 
+     * - Opción afirmativa: Si las credenciales son válidas, entonces 
+     * esta función creará un 'token' para que el usuario autenticado 
+     * realice operaciones con recursos protegidos, todo esto durante 
+     * un lapso de tiempo definido en el token (un día en este caso), 
+     * además de un objeto Usuario con todos sus datos (a excepción de 
+     * la contraseña, por supuesto). 
+     * 
+     * - Opción negativa: Si en caso contrario las credenciales no 
+     * son válidas, entonces se creará un objeto de Exception para 
+     * responder al cliente, estableciendo el código de respuesta http 
+     * a 401 (Unauthorized), 404 (Not found), o 500 (API o BD error) 
+     * dependiendo del error generado. Como se puede intuir, el token
+     * no es generado en este caso. 
+     * 
+     * 
+     * @param {Request} req Objeto entregado por express 
+     * para manejar la petición
+     * @param {Response} res Objeto entregado por express 
+     * para responder la petición
+     * 
+     */
     function login(req,res){
 
         try {
@@ -111,6 +160,16 @@ function AuthRepository(conexion){
         
     }
 
+    /**
+     * TODO: Implementar la mecánica de cierre de sesión en la web api, 
+     * invalidando el token por ejemplo
+     * 
+     * @param {Request} req Objeto entregado por express para 
+     * manejar la petición
+     * @param {Response} res Objeto entregado por express para 
+     * responder la petición
+     * 
+     */
     function logout(req,res){
 
         try {

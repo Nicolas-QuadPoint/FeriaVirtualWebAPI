@@ -15,14 +15,20 @@ if(dotenv.error){
 //Si quieres objetos JSON, entonces pon OUT_FORMAT_OBJECT
 Ora.outFormat = Ora.OUT_FORMAT_ARRAY;
 
-// Create connection to database
+// Información de conector para una base de datos Oracle.
 const oraconfig = {
     user          : process.env.DB_USER,
     password      : process.env.DB_USER_PASSWD,
     connectString : process.env.DB_SERVER
 };
 
-   
+
+/**
+ * OraDBConnector
+ * 
+ * Implementación de DBConnector, orientado a 
+ * una conexión a una base de datos Oracle. 
+ */
 class OraDBConnector extends DBConnector{
 
     static dbTypes = {

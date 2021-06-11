@@ -1,14 +1,43 @@
 import ConexionBD from '../../db/oracledbconnector.js';
 import Ora from 'oracledb';
-import ex, { InvalidArgumentException } from '../../info/exceptions/exceptions.js';
+import ex from '../../info/exceptions/exceptions.js';
 import Usuario from '../../entities/Usuario.js';
 import ResultadoID from '../../entities/ResultadoID.js';
 import ObjetoCambiarContrasena from '../../entities/ObjetoCambiarContrasena.js';
 
-function UsuarioRepository(data){
+/**
+ * UsuarioRepository
+ * 
+ * Clase que contiene las operaciones que trabajan con usuarios.
+ * Todas las rutinas están protegidas, requiriendo autenticación 
+ * previa.
+ * 
+ * @see {Usuario}
+ * @param {Object} conexion Objeto sin uso que no debe tomarse en cuenta 
+ * por ahora.
+ * @return Una instancia de UsuarioRepository.
+ */
+function UsuarioRepository(conexion){
 
     /* Metodos de clase */
 
+    /**
+     * 
+     * Función que permite crear un usuario, obteniendo los datos desde 
+     * el cuerpo de la petición, en forma de objeto JSON de Usuario.
+     * Si la inserción en la base de datos falla, entonces un objeto 
+     * Exception es devuelto al cliente, junto con su código http 
+     * dependiendo del error generado.
+     * 
+     * Pero si la inserción es exitosa, un objeto ResultadoID es 
+     * devuelto, que incluye el ID del objeto usuario recién creado. 
+     * 
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function nuevoUsuario(req,res){
 
         try {
@@ -22,10 +51,6 @@ function UsuarioRepository(data){
 
                 var bd = new ConexionBD();
                 var succ = 0;
-
-                /**
-                 * 
-                 */
 
                 var parametros = {
                     usu_personalID :{ name:'idUsuario', type: ConexionBD.dbTypes.VARCHAR, val: u.personal_id, dir: ConexionBD.dbTypes.IN },
@@ -89,7 +114,19 @@ function UsuarioRepository(data){
 
     }
 
-    
+    /**
+     * 
+     * Función interceptor que se mete en el medio de toda petición que 
+     * tenga /usuarios/:usuarioid en su ruta. Busca al usuario en la base 
+     * de datos cuya ID proporcionada por :usuarioid corresponda con un 
+     * registro almacenado.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     * @param {Function} next Función que permite continuar con la petición.
+     */
     function interceptarUsuarioPorID(req,res,next){
 
         console.log('Pasando por middleware interceptarUsuario!!');
@@ -149,11 +186,32 @@ function UsuarioRepository(data){
         }
     }
 
+    /**
+     * 
+     * Utiliza el resultado de la función interceptora interceptarUsuarioPorID
+     * y retorna el resultado (éxito o fallo) que se obtuvo.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function getUsuario(req,res){
 
         res.status(200).json(req.data);
     }
 
+    /**
+     * 
+     * Función que busca y retorna un array de objetos Usuario en forma 
+     * de JSON, que correspondan a todos los registros de usuarios en la 
+     * base de datos. 
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function getUsuarios(req,res){
         
         try {
@@ -205,6 +263,16 @@ function UsuarioRepository(data){
 
     }
 
+    /**
+     * 
+     * TODO: Agregar la lógica necesaria para modificar el usuario entregado 
+     * en el cuerpo de la petición. Ahora mismo no hace nada.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function modificarUsuario(req,res){
 
         try {
@@ -220,6 +288,20 @@ function UsuarioRepository(data){
 
     }
 
+    /**
+     * 
+     * Función que permite cambiar la contraseña del usuario con los datos 
+     * entregados en el cuerpo de la petición. La contraseña será cifrada en 
+     * la base de datos, por lo que una reauntenticación por parte del cliente 
+     * sería recomendable.
+     * TODO: Hacer que la sesión del usuario se cierre (si el usuario que se 
+     * cambia la contraseña es el mismo), invalidando el token.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function cambiarContrasenaUsuario(req,res){
 
         try {
@@ -231,7 +313,7 @@ function UsuarioRepository(data){
             objCambiarContrasena.clone(req.body,true);
 
             if(!objCambiarContrasena.validate()){
-                throw new InvalidArgumentException();
+                throw new ex.InvalidArgumentException();
             }
 
             console.log(objCambiarContrasena);
@@ -279,6 +361,18 @@ function UsuarioRepository(data){
 
     }
 
+    /**
+     * 
+     * Función que deshabilita (o bloquea) un usuario para que no vuelva 
+     * a acceder al sistema. Ahora mismo no hace nada.
+     * TODO: Hacer que la sesión del usuario se cierre (si el usuario que se 
+     * cambia la contraseña es el mismo), invalidando el token.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function deshabilitarUsuario(req,res){
 
         try {

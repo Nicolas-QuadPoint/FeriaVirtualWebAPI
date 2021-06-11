@@ -7,17 +7,40 @@ import Venta from '../../entities/Venta.js';
 import Ora from 'oracledb';
 import ParProductoCantidad from '../../entities/ParProductoCantidad.js';
 
-/* Definicion de clase */
-function VentasRepository(datos){
+/**
+ * 
+ * Clase que posee las operaciones con las cuales gestionar 
+ * ventas.
+ * 
+ * @param {Object} conexion Objeto que no tiene uso y que no debe 
+ * tomarse en cuenta.
+ * @return Una instancia de VentasRepository.
+ */
+function VentasRepository(conexion){
     
     /* Metodos de clase */
+
+    /**
+     * 
+     * Función que permite crear una nueva Venta a la base de datos, iniciando 
+     * el proceso de venta. Los datos de venta a crear deben estar en el 
+     * cuerpo de la petición. Ahora mismo no hace nada. 
+     * 
+     * TODO: Crear la lógica para crear el objeto Venta para insertarla en 
+     * la base de datos. 
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function nuevaVenta(req,res){
         
         try {
 
-            var objeto = JSON.parse(req.body);
+            //var objeto = JSON.parse(req.body);
             
-            console.log(req.body);
+            //console.log(req.body);
 
             res.status(501).json( new ex.MethodNotImplementedException() );
 
@@ -29,13 +52,24 @@ function VentasRepository(datos){
 
     }
 
+    /**
+     * 
+     * Función que permite obtener una venta por su ID. La información de 
+     * venta es detallada, permitiendo obtener muchos más datos asociados, 
+     * como el detalle de productos que son solicitados en la venta.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function getVenta(req,res){
        
         try {
 
             var venta_id = Number(req.params.ventaid);
 
-            if(req.params.ventaid && !isNaN(venta_id)){ /*if(true){*/
+            if(req.params.ventaid && !isNaN(venta_id)){ 
 
                 var conn = new ConexionBD();
 
@@ -75,6 +109,7 @@ function VentasRepository(datos){
                                 cursor_productos_venta.getRows(65535,function(err,filas_productos){
 
                                     if(filas_productos){
+
                                         //console.log(filas_productos);
                                         
                                         /**
@@ -138,6 +173,17 @@ function VentasRepository(datos){
 
     }
 
+    /**
+     * 
+     * Función que busca las ventas asociadas al ID del usuario indicado en 
+     * la ruta de la petición, y devuelve una lista de registros de venta 
+     * encontrados, en formato JSON.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function getVentasPorUsuario(req,res){
         
         try {
@@ -166,7 +212,7 @@ function VentasRepository(datos){
 
                     } else {
 
-                        res.status(404).json( RecordNotFoundException );
+                        res.status(404).json( new ex.RecordNotFoundException());
 
                     }
 
@@ -175,7 +221,7 @@ function VentasRepository(datos){
 
             } else {
 
-                res.status(400).json( InvalidArgumentException );
+                res.status(400).json( new ex.InvalidArgumentException() );
 
             }
 
@@ -186,6 +232,20 @@ function VentasRepository(datos){
         }
     }
 
+
+    /**
+     * 
+     * Función que retorna una lista de todas las ventas creadas hasta el 
+     * momento en la base de datos. El resultado de venta es simple y no 
+     * contiene los detalles de la venta como lo hace la función getVenta. 
+     * 
+     * 
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function getVentas(req,res){
 
         try {
@@ -232,6 +292,18 @@ function VentasRepository(datos){
 
     }
 
+    /**
+     * 
+     * Función que actualiza el registro de venta, obteniendo los datos a 
+     * modificar en el cuerpo de la petición. Ahora mismo no hace nada.
+     * 
+     * TODO: Agregar la lógica para modficar el registro de venta.
+     * 
+     * @param {Request} req Objeto entregado por express para obtener datos 
+     * de la petición.
+     * @param {Response} res Objeto entregado por express para responder la 
+     * petición.
+     */
     function updateVenta(req,res){
 
         try {

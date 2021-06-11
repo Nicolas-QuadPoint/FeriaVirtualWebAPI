@@ -6,6 +6,12 @@ import ProductosRoutes from '../repositories/producto/producto.routes.js';
 import InfoRoutes from '../repositories/info/info.routes.js';
 import AuthAutenticationService from '../repositories/auth/auth.autentication.service.js';
 
+/**
+ * 
+ * Objeto maestro que posee las rutas de la webapi.
+ * 
+ * @returns Objeto Router con las rutas de la webapi.
+ */
 export default function() {
     const router = express.Router();
 
